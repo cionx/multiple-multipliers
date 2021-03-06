@@ -13,7 +13,6 @@ function main(): void {
 }
 
 function update(time: number): void {
-	console.log(time);
 	gameManager.update(time);
 	requestAnimationFrame(update);
 }

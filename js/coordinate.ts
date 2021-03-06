@@ -22,7 +22,7 @@ class Coordinate {
 		const mx = speed * dx / normalize;
 		const my = speed * dy / normalize;
 
-		this.x += mx;
+		this.x += 1.5 * mx;
 		this.y += my;
 
 		this.x = Math.round(this.x);

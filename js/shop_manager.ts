@@ -2,9 +2,9 @@ export { shopManager };
 
 
 
-import { fightManager } from "./fight_manager.js";
-import { gameManager } from "./game_manager.js";
 import { Manager } from "./manager.js";
+import { gameManager } from "./game_manager.js";
+import { multiplierManager } from "./multiplier_manager.js";
 
 
 
@@ -40,7 +40,7 @@ class ShopManager extends Manager {
 	}
 
 	stop() {
-		gameManager.update = fightManager.start.bind(fightManager);
+		gameManager.update = multiplierManager.start.bind(multiplierManager);
 		this.window.style.display = "none";
 		// this.playButton.disabled = true;
 	}

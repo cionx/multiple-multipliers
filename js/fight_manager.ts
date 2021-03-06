@@ -9,6 +9,8 @@ import { Coordinate } from "./coordinate.js";
 import { drawingArea } from "./drawing_area.js";
 import { gameManager } from "./game_manager.js";
 import { shopManager } from "./shop_manager.js";
+import { multiplierManager } from "./multiplier_manager.js";
+import { randomInt } from "./random.js";
 
 
 
@@ -27,8 +29,10 @@ class FightManager extends Manager {
 	start(): void {
 		this._fighters["troop"] = [];
 		this._fighters["enemy"] = [];
-		this.addFighter(10, 10, "troop");
-		this.addFighter(200, 200, "enemy");
+		const troopNumber = multiplierManager.getMultiplier("troopNumber").value;
+		this.addFighters(troopNumber, "troop");
+		const enemyNumber = multiplierManager.getMultiplier("enemyNumber").value;
+		this.addFighters(enemyNumber, "enemy");
 		gameManager.update = this.update.bind(this);
 	}
 
@@ -62,6 +66,18 @@ class FightManager extends Manager {
 	draw(): void {
 		for (const fighter of this.fighters) {
 			fighter.draw();
+		}
+	}
+
+	private addFighters(amount: number, side: Side): void {
+		// the spawn area is 100x300 on both sides
+		// we condiser the upper left corner of this area
+		const corner = (side == "troop" ? 0 : 1100);
+		while (amount > 0) {
+			const x = randomInt(corner, corner + 100);
+			const y = randomInt(0, 300);
+			this.addFighter(x, y, side);
+			amount--;
 		}
 	}
 

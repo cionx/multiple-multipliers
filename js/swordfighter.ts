@@ -10,6 +10,6 @@ class SwordFighter extends Fighter {
 
 	constructor(coord: Coordinate, side: Side) {
 		const sprite = new Sprite("../graphics/stick-figure.png");
-		super(coord, sprite, 10, 1, 1, 10, 1000, side);
+		super(coord, sprite, 5, 2, 1, 10, 1000, side);
 	}
 }

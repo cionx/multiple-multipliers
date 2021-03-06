@@ -95,11 +95,11 @@ body {
 
 .shop-window {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 90%;
-	height: 90%;
-	transform: translate(-50%, -50%);
+	/* top: 50%; */
+	/* left: 50%; */
+	width: 100%;
+	height: 100%;
+	/* transform: translate(-50%, -50%); */
 }
 
 
@@ -107,8 +107,9 @@ body {
 /* SHOP WINDOW INTERNAL */
 
 .shop-window {
-	border: 3px solid black;
-	border-radius: 20px;
+	border-top: 3px solid black;
+	border-bottom: 3px solid black;
+	/* border-radius: 20px; */
 	background: whitesmoke;
 }
 
@@ -127,7 +128,7 @@ body {
 .play-button {
 	background-color: whitesmoke;
 	border: 3px solid black;
-	border-radius: 20px;
+	border-radius: 0px;
 	padding: 0.6vw 5vw;
 }
 
@@ -149,4 +150,12 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	padding: 10px;
+}
+
+/* MODIFIER BOXES */
+
+.multiplier-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }

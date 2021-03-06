@@ -14,8 +14,8 @@ class DrawingArea {
 		}
 		this.canvas = canvas;
 
-		this.canvas.width = 600;
-		this.canvas.height = 300;
+		this.canvas.width = 1200;
+		this.canvas.height = 600;
 
 		const context =  canvas.getContext("2d");
 		if (context == null) {

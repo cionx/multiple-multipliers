@@ -55,10 +55,6 @@ abstract class Fighter {
 		this.target = this; // dirty hack
 	}
 	
-	get isAlive(): boolean {
-		return this.health > 0;
-	}
-
 	start() {
 		this.update = this.chooseTarget;
 	}
@@ -99,7 +95,7 @@ abstract class Fighter {
 	}
 	
 	private attack(time: number): void {
-		if (!this.canReachTarget()) {
+		if (!this.canReachTarget() || !this.target.isAlive) {
 			this.update = this.chooseTarget;
 			return;
 		}
@@ -107,10 +103,15 @@ abstract class Fighter {
 			this.target.health -= this.damage;
 			this.lastAttack = time;
 		}
+		console.log(this.target.health);
 	}
 
 	private canReachTarget(): boolean  {
 		return Fighter.distance(this, this.target) <= this.range;
+	}
+
+	get isAlive(): boolean {
+		return this.health > 0;
 	}
 	
 	draw(): void {
