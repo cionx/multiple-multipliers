@@ -83,14 +83,6 @@ body {
 
 
 
-/* HIDING SOME WINDOWS BY DEFAULT */
-
-.shop-window {
-	display: none;
-}
-
-
-
 /* SHOP WINDOW POSITIONING */
 
 .shop-window {
@@ -107,8 +99,8 @@ body {
 /* SHOP WINDOW INTERNAL */
 
 .shop-window {
-	border-top: 3px solid black;
-	border-bottom: 3px solid black;
+	/* border-top: 3px solid black; */
+	/* border-bottom: 3px solid black; */
 	/* border-radius: 20px; */
 	background: whitesmoke;
 }
@@ -144,6 +136,7 @@ body {
 }
 
 
+
 /* SIDEBARS */
 
 .left, .right {
@@ -153,9 +146,44 @@ body {
 	padding: 10px;
 }
 
+
+
 /* MODIFIER BOXES */
 
 .multiplier-container {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	gap: 1vw;
+	align-items: center;
+	line-height: 0;
+}
+
+
+
+/* DICE */
+
+.dice {
+	width: 3vw;
+	height: 3vw;
+	border: 0.15vw solid black;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2vw;
+	padding-bottom: 5px;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes dropdown {
+	0%    { transform: translateY(-100vh); }
+	100%  { transform: translateY(0); }
+}
+
+.shop-window {
+	animation-name: dropdown;
+	animation-duration: 2s;
+	/* transform-origin: top; */
 }

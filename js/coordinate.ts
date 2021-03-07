@@ -1,5 +1,12 @@
 export { Coordinate };
 
+
+
+import { drawingArea } from "./drawing_area.js";
+import { bernoulli } from "./random.js";
+
+
+
 class Coordinate {
 	x: number;
 	y: number;
@@ -12,8 +19,22 @@ class Coordinate {
 		this.x = x;
 		this.y = y;
 	}
-	
+
+	// moveTowards(p: Coordinate, speed: number) {
+	// 	const dx = p.x - this.x;
+	// 	const dy = p.y - this.y;
+
+	// 	const probabilityY =  ( Math.abs(dy) / ( Math.abs(dx) + Math.abs(dy) ) );
+		
+	// 	bernoulli(probabilityY)
+	// 		? this.y += Math.sign(dy) * speed
+	// 		: this.x += Math.sign(dx) * speed;
+	// }
+
 	moveTowards(p: Coordinate, speed: number) {
+		const width = drawingArea.width;
+		
+
 		const dx = p.x - this.x;
 		const dy = p.y - this.y;
 		
@@ -22,7 +43,7 @@ class Coordinate {
 		const mx = speed * dx / normalize;
 		const my = speed * dy / normalize;
 
-		this.x += 1.5 * mx;
+		this.x += mx;
 		this.y += my;
 
 		this.x = Math.round(this.x);

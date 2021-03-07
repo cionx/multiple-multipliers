@@ -19,8 +19,8 @@ class MultiplierManager extends Manager {
 	constructor() {
 		super();
 		this._multipliers = new Map([]);
-		this.addMultiplier("troopNumber", "Number", "troop");
-		this.addMultiplier("enemyNumber", "Number", "enemy");
+		this.addMultiplier("troopNumber", "Fighters", "troop");
+		this.addMultiplier("enemyNumber", "Fighters", "enemy");
 	}
 
 	start(time: number) {

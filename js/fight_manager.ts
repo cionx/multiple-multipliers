@@ -63,19 +63,28 @@ class FightManager extends Manager {
 		}
 	}
 	
+	// TODO: COLLISION CHECKING
+
 	draw(): void {
 		for (const fighter of this.fighters) {
 			fighter.draw();
 		}
+		for (const fighter of this.fighters) {
+			fighter.drawHealthBar();
+		}
 	}
 
+	/* GETTER AND SETTER */
+
 	private addFighters(amount: number, side: Side): void {
-		// the spawn area is 100x300 on both sides
-		// we condiser the upper left corner of this area
-		const corner = (side == "troop" ? 0 : 1100);
+		const width = drawingArea.width;
+		const height = drawingArea.height;
+
+		const corner = (side == "troop" ? 0.05 : 0.85);
+		
 		while (amount > 0) {
-			const x = randomInt(corner, corner + 100);
-			const y = randomInt(0, 300);
+			const x = randomInt(corner * width, (corner + 0.1) * width);
+			const y = randomInt(0.1 * height, 0.9 * height);
 			this.addFighter(x, y, side);
 			amount--;
 		}

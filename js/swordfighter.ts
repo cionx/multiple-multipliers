@@ -6,10 +6,19 @@ import { Fighter, Side } from "./fighter.js";
 import { Sprite } from "./sprite.js"
 
 
+const BASEHEALTH = 50;
+const BASESPEED = 5;
+const BASEDAMAGE = 2;
+const BASERANGE = 45;
+const BASEDELAY = 250;
+
+
+
+
 class SwordFighter extends Fighter {
 
 	constructor(coord: Coordinate, side: Side) {
 		const sprite = new Sprite("../graphics/stick-figure.png");
-		super(coord, sprite, 5, 2, 1, 10, 1000, side);
+		super(coord, sprite, BASEHEALTH, BASEDAMAGE, BASESPEED, BASERANGE, BASEDELAY, side);
 	}
 }

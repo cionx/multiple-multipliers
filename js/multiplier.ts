@@ -2,6 +2,7 @@ export { Multiplier };
 
 
 
+import { Dice } from "./dice.js";
 import { Side } from "./fighter.js";
 import { randomInt } from "./random.js";
 
@@ -10,20 +11,15 @@ import { randomInt } from "./random.js";
 class Multiplier {
 	private name: string;
 	
-	private maxValue: number;
-	private _value: number;
-	
+	private dice: Dice;
 	private currentRollDelay: number;
 	private lastRoll: number;
 
 	private display: HTMLDivElement;
-	private valueDisplay: HTMLSpanElement;
+	private diceDisplay: HTMLSpanElement;
 
 	constructor(name: string, side: Side) {
 		this.name = name;
-
-		this._value = 1;
-		this.maxValue = 2;
 
 		this.currentRollDelay = 0;
 		this.lastRoll = 0;
@@ -41,11 +37,13 @@ class Multiplier {
 		}
 		nameDisplay.innerHTML = this.name;
 		
-		const valueDisplay = <HTMLSpanElement|null> this.display.querySelector(".multiplier-value");
-		if (valueDisplay == null) {
+		const diceDisplay = <HTMLSpanElement|null> this.display.querySelector(".dice");
+		if (diceDisplay == null) {
 			throw new Error("Can’t find the display field for dice values in the template.")
 		}
-		this.valueDisplay = valueDisplay;
+		this.diceDisplay = diceDisplay;
+		
+		this.dice = new Dice(this.diceDisplay);
 		
 		if (side == "troop") {
 			document.querySelector(".left")?.appendChild(this.display);
@@ -55,35 +53,24 @@ class Multiplier {
 	}
 
 	start(time: number): void {
-		this.value = 0;
 		this.currentRollDelay = 100;
 		this.lastRoll = time + randomInt(0, 1000);
 	}
 
 	update(time: number) {
 		if (time > this.lastRoll + this.currentRollDelay) {
-			this.value = randomInt(1, 6);
-			console.log(this._value);
+			this.dice.roll();
 			this.lastRoll = time;
 			this.currentRollDelay *= 1.2;
 		}
 	}
 
 	get value(): number {
-		return this._value;
+		return this.dice.value;
 	}
 	
 	get isRolling(): boolean {
 		return this.currentRollDelay < 1000;
-	}
-
-	set value(value: number) {
-		this._value = value;
-		this.refreshDisplay();
-	}
-	
-	refreshDisplay() {
-		this.valueDisplay.innerHTML = String(this.value);
 	}
 
 }

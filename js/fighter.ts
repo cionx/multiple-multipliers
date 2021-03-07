@@ -3,6 +3,7 @@ export { Fighter, Side };
 
 
 import { Coordinate } from "./coordinate.js"
+import { drawingArea } from "./drawing_area.js";
 import { fightManager } from "./fight_manager.js";
 import { Sprite } from "./sprite.js";
 
@@ -69,7 +70,7 @@ abstract class Fighter {
 		let target = null;
 
 		for (const enemy of enemies) {
-			const dist = Fighter.distance(this, enemy);
+			const dist = Math.abs(this.y - enemy.y);
 			if (dist < minDist) {
 				minDist = dist;
 				target = enemy;
@@ -91,6 +92,7 @@ abstract class Fighter {
 		}
 		else {
 			this.coord.moveTowards(this.target.coord, this.speed);
+			this.chooseTarget();
 		}
 	}
 	
@@ -113,9 +115,26 @@ abstract class Fighter {
 	get isAlive(): boolean {
 		return this.health > 0;
 	}
+
+	get x(): number {
+		return this.coord.x;
+	}
+	
+	get y(): number {
+		return this.coord.y;
+	}
 	
 	draw(): void {
 		this.sprite.draw(this.coord);
+		const ctx = drawingArea.context;
+		ctx.beginPath();
+		ctx.moveTo(this.x, this.y);
+		ctx.lineTo(this.target.x, this.target.y);
+		ctx.stroke();
 	}
-
+	
+	drawHealthBar(): void {
+		const width = this.sprite.width;
+		drawingArea.drawHealth(this.x, this.y, width, this.health);
+	}
 }

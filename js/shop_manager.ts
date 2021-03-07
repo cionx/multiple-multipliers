@@ -33,7 +33,7 @@ class ShopManager extends Manager {
 	start() {
 		gameManager.update = this.update.bind(this);
 		this.window.style.display = "flex";
-		// this.playButton.disabled = false;
+		this.playButton.disabled = false;
 	}
 
 	update() {
@@ -42,11 +42,10 @@ class ShopManager extends Manager {
 	stop() {
 		gameManager.update = multiplierManager.start.bind(multiplierManager);
 		this.window.style.display = "none";
-		// this.playButton.disabled = true;
+		this.playButton.disabled = true;
 	}
 
 }
-
 
 
 const shopManager = new ShopManager();

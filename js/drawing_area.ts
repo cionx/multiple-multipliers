@@ -14,8 +14,8 @@ class DrawingArea {
 		}
 		this.canvas = canvas;
 
-		this.canvas.width = 1200;
-		this.canvas.height = 600;
+		this.canvas.width = 1920;
+		this.canvas.height = 1080;
 
 		const context =  canvas.getContext("2d");
 		if (context == null) {
@@ -24,8 +24,21 @@ class DrawingArea {
 		this.context = context;
 	}
 
-	clear() {
+	clear(): void {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	drawHealth(x: number, y:number, figureWidth: number, value: number ) {
+		this.context.fillStyle = "red";
+		this.context.fillRect(x + figureWidth/2 - value/2, y - 20, value, 15);
+	}
+
+	get width(): number {
+		return this.canvas.width;
+	}
+	
+	get height(): number {
+		return this.canvas.height;
 	}
 }
 
