@@ -23,7 +23,7 @@ abstract class Fighter {
 
 	static readonly color = {
 		troop: "lightskyblue",
-		enemy: "white"
+		enemy: "whitesmoke"
 	}
 
 	coord: Coordinate

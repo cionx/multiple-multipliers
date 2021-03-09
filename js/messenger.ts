@@ -14,7 +14,7 @@ import { fightManager } from "./fight_manager.js";
 
 class Messenger extends Manager {
 	
-	static readonly SCREENTIME = 4000;
+	static readonly SCREENTIME = 3000;
 
 	private startTime: number;
 	private window: HTMLDivElement;

@@ -8,7 +8,7 @@ import { randomInt } from "./random.js";
 
 
 
-const MAXFACES = 20;
+const MAXFACES = 50;
 
 
 

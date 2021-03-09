@@ -120,14 +120,24 @@ button:disabled {
 }
 
 .shop-point-display {
-	grid-row: 1/1;
-	grid-column: 1 / span 2;
+	grid-row: 1 / span 1;
+	grid-column: 1 / span 1;
+}
+
+.level-navigation {
+	grid-row: 1 / span 1;
+	grid-column: 2 / span 2;
+}
+
+.navigation-button {
+	padding: 5px 20px;
+	margin: 10px;
 }
 
 .play-button {
 	padding: 0.6vw 5vw;
-	grid-row: 1/1;
-	grid-column: 3 / span 2;
+	grid-row: 1 / span 1;
+	grid-column: 4 / span 1;
 }
 
 
@@ -270,5 +280,5 @@ button:disabled {
 
 .dropping-down {
 	animation-name: dropdown;
-	animation-duration: 2s;
+	animation-duration: 1.5s;
 }

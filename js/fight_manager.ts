@@ -9,6 +9,7 @@ import { gameManager } from "./game_manager.js";
 import { Manager } from "./manager.js";
 import { messenger } from "./messenger.js";
 import { fighterInitializer } from "./fighter_initializer.js";
+import { levelManager } from "./level_manager.js";
 
 
 
@@ -50,7 +51,7 @@ class FightManager extends Manager {
 	}
 	
 	stop(): void {
-		gameManager.update = messenger.start.bind(messenger);
+		gameManager.update = levelManager.start.bind(levelManager);
 	}
 
 	removeDead(): void {
@@ -84,6 +85,10 @@ class FightManager extends Manager {
 
 	get fighters(): Fighter[] {
 		return Object.values(this._fighters).flat();
+	}
+
+	alliesOf(type: SideType): Fighter[] {
+		return this._fighters[type];
 	}
 	
 	targetsOf(type: SideType): Fighter[] {

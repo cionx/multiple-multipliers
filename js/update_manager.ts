@@ -5,12 +5,13 @@ export { updateManager };
 import { gameManager } from "./game_manager.js";
 import { multiplierManager } from "./multiplier_manager.js";
 import { messenger } from "./messenger.js";
-import { Stat } from "./stat.js";
+import { levelManager } from "./level_manager.js";
 
 
 
 import { Manager } from "./manager.js";
 import { Update } from "./update.js";
+import { Stat } from "./stat.js";
 
 
 
@@ -39,9 +40,10 @@ class UpdateManager extends Manager {
 	}
 
 	start(): void {
-		gameManager.update = this.update.bind(this);
+		levelManager.initialize();
 		this.window.style.display = "grid";
 		this.playButton.disabled = false;
+		gameManager.update = this.update.bind(this);
 	}
 
 	update(): void {

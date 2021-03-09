@@ -46,7 +46,7 @@ class Square extends Fighter {
 	}
 	
 	get damage(): number {
-		return BASEDAMAGE;
+		return BASEDAMAGE * (1 + Math.max(0, Math.log(this.size / BASESIZE)));
 	}
 	
 	get speed(): number {
