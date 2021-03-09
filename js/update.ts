@@ -16,7 +16,8 @@ class Update {
 	private nameDisplay: HTMLSpanElement;
 	private minMinusButton: HTMLButtonElement;
 	private minPlusButton: HTMLButtonElement;
-	private valueDisplay: HTMLSpanElement;
+	private minDisplay: HTMLSpanElement;
+	private maxDisplay: HTMLSpanElement;
 	private maxMinusButton: HTMLButtonElement;
 	private maxPlusButton: HTMLButtonElement;
 
@@ -37,11 +38,17 @@ class Update {
 		}
 		this.nameDisplay = nameDisplay;
 		
-		const valueDisplay = <HTMLSpanElement> displayBox.querySelector(".update-value");
-		if (nameDisplay == null) {
-			throw new Error("Can’t find the update value display field in the template.");
+		const minDisplay = <HTMLSpanElement> displayBox.querySelector(".update-value-min");
+		if (minDisplay == null) {
+			throw new Error("Can’t find the update min-value display field in the template.");
 		}
-		this.valueDisplay = valueDisplay;
+		this.minDisplay = minDisplay;
+		
+		const maxDisplay = <HTMLSpanElement> displayBox.querySelector(".update-value-max");
+		if (maxDisplay == null) {
+			throw new Error("Can’t find the update max-value display field in the template.");
+		}
+		this.maxDisplay = maxDisplay;
 		
 		const minMinusButton = <HTMLButtonElement> displayBox.querySelector(".update-min-minus");
 		if (minMinusButton == null) {
@@ -82,7 +89,8 @@ class Update {
 	refreshDisplay(): void {
 		const min = this.stat.min;
 		const max = this.stat.max;
-		this.valueDisplay.innerHTML = `${min} — ${max}`;
+		this.minDisplay.innerHTML = String(min);
+		this.maxDisplay.innerHTML = String(max);
 		this.refreshButtons();
 	}
 

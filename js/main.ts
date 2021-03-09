@@ -6,6 +6,10 @@ main();
 
 
 
+let lastSave = 0;
+
+
+
 function main(): void {
 	gameManager.checkForSave();
 	gameManager.start();

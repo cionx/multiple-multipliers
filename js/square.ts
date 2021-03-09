@@ -18,8 +18,7 @@ const BASEDELAY = 250;
 
 
 
-const propertyTypeArray = ["size"] as const;
-type propertyType = typeof propertyTypeArray[number];
+const propertyTypeArray = ["Size"] as const;
 
 
 
@@ -72,7 +71,7 @@ class Square extends Fighter {
 		
 	multiplyProperty(property: string, factor: number) {
 		switch(property) {
-			case "size":
+			case "Size":
 				this.size *= factor;
 				break;
 			default:

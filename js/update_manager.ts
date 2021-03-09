@@ -1,18 +1,19 @@
 export { updateManager };
 
 
-
 import { gameManager } from "./game_manager.js";
 import { multiplierManager } from "./multiplier_manager.js";
 import { messenger } from "./messenger.js";
 import { levelManager } from "./level_manager.js";
 
 
-
+import { FighterType } from "./fighter.js";
 import { Manager } from "./manager.js";
 import { Update } from "./update.js";
 import { Stat } from "./stat.js";
 
+
+type UpdateList = Map<FighterType, {[property: string]: Update}>;
 
 
 class UpdateManager extends Manager {
@@ -20,7 +21,21 @@ class UpdateManager extends Manager {
 	window: HTMLDivElement;
 	playButton: HTMLButtonElement;
 
-	private static updateList: Update[];
+	private static updateList: UpdateList;
+
+	static get updateArray(): Update[] {
+		const result =
+		Array.from(
+			UpdateManager
+			.updateList
+			.values()
+		)
+		.map( propEnum =>
+			Object.values(propEnum)
+		)
+		.flat();
+		return result;
+	}
 
 	constructor() {
 		super();
@@ -57,23 +72,30 @@ class UpdateManager extends Manager {
 	}
 	
 	initializeUpdates(): void {
-		UpdateManager.updateList =
-			Array.from(
-				Stat.statList.values()
-			)
-			.map(stat =>
-				new Update(stat)
-			);
+		const statList = Stat.statLists.get("troop");
+		if (statList == null) {
+			throw Error("Can’t load the stats for troops.")
+		}
+		UpdateManager.updateList = new Map();
+		const statArray = Array.from( statList.entries() );
+		for (const [fighterType, propertyEnum] of statArray) {
+			const updateEnum = <{[property: string]: Update}> {};
+			const propertyArray = Object.entries(propertyEnum);
+			for (const [property, stat] of propertyArray) {
+				updateEnum[property] = new Update(stat);
+			}
+			UpdateManager.updateList.set(fighterType, updateEnum);
+		}
 	}
 
 	disablePlus(): void {
-		for (const update of UpdateManager.updateList) {
+		for (const update of UpdateManager.updateArray) {
 			update.disablePlus();
 		}
 	}
 
 	enablePlus(): void {
-		for (const update of UpdateManager.updateList) {
+		for (const update of UpdateManager.updateArray) {
 			update.enablePlus();
 		}
 	}

@@ -1,14 +1,10 @@
-export { Fighter, SideType, FighterType, fighterTypesArray };
+export { Fighter, SideType, FighterType, fighterTypesArray, sideTypesArray };
 
 
 
 import { Coordinate } from "./coordinate.js"
-import { drawingArea } from "./drawing_area.js";
 import { fightManager } from "./fight_manager.js";
 import { Sprite } from "./sprite.js";
-
-import { Square } from "./square.js";
-
 
 
 const sideTypesArray = ["troop", "enemy"] as const;

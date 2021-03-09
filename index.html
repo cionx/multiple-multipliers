@@ -53,12 +53,18 @@
 			
 				<template class="update-window-template">
 					<div class="update-window">
+						<!-- first row -->
 						<span class="update-name"> Name </span>
-						<button class="update-min-minus plus-minus">  </button>
-						<button class="update-min-plus plus-minus">  </button>
-						<span class="update-value"> Value </span>
-						<button class="update-max-minus plus-minus">  </button>
-						<button class="update-max-plus plus-minus">  </button>
+						<!-- second row -->
+						<span class="update-value update-value-min"> Value </span>
+						<span> — </span>
+						<span class="update-value update-value-max"> Value </span>
+						<!-- third row -->
+						<button class="update-min-minus plus-minus">   </button>
+						<button class="update-min-plus plus-minus">   </button>
+						<button class="placeholder plus-minus"></button>
+						<button class="update-max-minus plus-minus">   </button>
+						<button class="update-max-plus plus-minus">   </button>
 					</div>
 				</template>
 			</div>

@@ -1,20 +1,17 @@
 export { fighterInitializer }
 
 
-
 import { fightManager, SideType } from "./fight_manager.js";
 import { gameManager } from "./game_manager.js";
 import { drawingArea } from "./drawing_area.js";
 
 
-
 import { Manager } from "./manager.js";
 import { randomInt } from "./random.js";
-import { Fighter, FighterType, fighterTypesArray } from "./fighter.js";
+import { Fighter, FighterType } from "./fighter.js";
 import { multiplierManager } from "./multiplier_manager.js";
 import { Coordinate } from "./coordinate.js";
 import { Multiplier } from "./multiplier.js";
-
 
 
 class FighterInitializer extends Manager {
@@ -29,68 +26,109 @@ class FighterInitializer extends Manager {
 	}
 
 	update() {
-		this.generate("troop");
-		this.generate("enemy");
+		this.generateFighters();
 		this.stop();
 	}
 
-	generate(side: SideType) {
-		const multipliers =
-			<[FighterType, string, Multiplier][]>
-			Array.from(
-				multiplierManager
-				.multipliers
-				.entries()
-			)
-			.filter(list =>
-				list[0][2] == side
-			)
-			.map(list => {
-				const [[type, property, side], multiplier] = list;
-				return [type, property, multiplier];
-			});
-		
-		const fighters = new Map<FighterType, Fighter[]>();
+	generateFighters() {
 
-		for (const [type, property, multiplier] of multipliers ) {
-			if (property == "number") {
-				const constructor = Fighter.fighterConstructors.get(type);
+		const multiplierListsArray =
+			Array.from(
+				multiplierManager.multiplierLists
+			);
+
+		for (const [side, multiplierList] of multiplierListsArray) {
+
+			const multiplierArray =
+				Array.from(
+					multiplierList.entries()
+				);
+
+			for (const [fighterType, multiplierEnum] of multiplierArray) {
+
+				const constructor = Fighter.fighterConstructors.get(fighterType);
 				if (constructor == undefined) {
-					throw new Error(`Can’t access the constructor for ${type}`);
+					throw new Error(`Can’t find the constructor for ${fighterType}`);
 				}
+				const amount = multiplierEnum["Number"].value;
+				
 				const fighterArray =
-					Array(multiplier.value)
+					Array(amount)
 					.fill(null)
-					.map( () =>
-						constructor( this.generateRandomCoord(side), side )
+					.map( _ =>
+						constructor(this.generateRandomCoord(side), side)
 					);
-				fighters.set(type, fighterArray);
+				
+				const multiplierPairs = Object.entries(multiplierEnum);
+				for (const [property, multiplier] of multiplierPairs) {
+					if (property == "Number") {
+						continue;
+					}
+					for (const fighter of fighterArray) {
+						fighter.multiplyProperty(property, multiplier.value);
+					}
+				}
+				
+				fightManager.addFighters(fighterArray, side);
 			}
 		}
 
-		for (let i = 0; i < multipliers.length; i++) {
-			console.log(i, multipliers[i]);
-			const [type, property, multiplier] = multipliers[i];
-			console.log(property);
-			if (property == "number") {
-				continue;
-			}
-			const fighterArray = fighters.get(type);
-			if (fighterArray == undefined) {
-				throw new Error(`Have to fighters of type ${type} to set property ${property} for.`);
-			}
-			for (const fighter of fighterArray) {
-				fighter.multiplyProperty(property, multiplier.value); 
-			}
-		}
+		// const multipliers =
+		// 	<[FighterType, string, Multiplier][]>
+		// 	Array.from(
+		// 		multiplierManager
+		// 		.multipliers
+		// 		.entries()
+		// 	)
+		// 	.filter(list =>
+		// 		list[0][2] == side
+		// 	)
+		// 	.map(list => {
+		// 		const [[type, property, side], multiplier] = list;
+		// 		return [type, property, multiplier];
+		// 	});
+		
+		// const fighters = new Map<FighterType, Fighter[]>();
 
-		fightManager
-		.addFighters(
-			Array.from(
-				fighters.values()
-			)
-			.flat(),
-			side);
+		// for (const [type, property, multiplier] of multipliers ) {
+		// 	if (property == "number") {
+		// 		const constructor = Fighter.fighterConstructors.get(type);
+		// 		if (constructor == undefined) {
+		// 			throw new Error(`Can’t access the constructor for ${type}`);
+		// 		}
+		// 		const fighterArray =
+		// 			Array(multiplier.value)
+		// 			.fill(null)
+		// 			.map( () =>
+		// 				constructor( this.generateRandomCoord(side), side )
+		// 			);
+		// 		fighters.set(type, fighterArray);
+		// 	}
+		// }
+
+		// for (let i = 0; i < multipliers.length; i++) {
+		// 	console.log(i, multipliers[i]);
+		// 	const [type, property, multiplier] = multipliers[i];
+		// 	console.log(property);
+		// 	if (property == "number") {
+		// 		continue;
+		// 	}
+		// 	const fighterArray = fighters.get(type);
+		// 	if (fighterArray == undefined) {
+		// 		throw new Error(`Have to fighters of type ${type} to set property ${property} for.`);
+		// 	}
+		// 	for (const fighter of fighterArray) {
+		// 		fighter.multiplyProperty(property, multiplier.value); 
+		// 	}
+		// }
+
+		// fightManager
+		// .addFighters(
+		// 	Array.from(
+		// 		fighters.values()
+		// 	)
+		// 	.flat(),
+		// 	side);
 	}
 
 	stop() {

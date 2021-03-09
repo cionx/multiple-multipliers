@@ -17,6 +17,7 @@ class Sprite {
 
 	draw(coord: Coordinate, size: number, color: string): void {
 		drawingArea.drawSquareFromCenter(coord, size, "black");
-		drawingArea.drawSquareFromCenter(coord, Math.min(0.9*size, size-10), color);
+		const smallerSize = Math.max(0, Math.min(0.9 * size, size-10));
+		drawingArea.drawSquareFromCenter(coord, smallerSize, color);
 	}
 }

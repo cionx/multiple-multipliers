@@ -2,9 +2,11 @@ export { Stat };
 
 
 
-import { Fighter, FighterType } from "./fighter.js";
-import { FightManager } from "./fight_manager.js";
+import { Fighter, FighterType, sideTypesArray } from "./fighter.js";
+import { FightManager, SideType } from "./fight_manager.js";
 
+
+type StatList = Map<FighterType, {[property: string]: Stat}>;
 
 
 class Stat {
@@ -13,7 +15,7 @@ class Stat {
 	private _min: number;
 	private _max: number;
 	
-	public static statList: Map<[FighterType, string], Stat>;
+	public static statLists: Map<SideType, StatList>;
 	// entries are set after the class definition
 
 	constructor(name: string) {
@@ -24,12 +26,18 @@ class Stat {
 
 	public static initialize() {
 		FightManager.initialize();
-		Stat.statList = new Map();
-		for (const [typeName, propertyList] of Array.from(Fighter.fighterProperties)) {
-			Stat.statList.set( [typeName, "number"], new Stat(`${typeName}: number` ) );
-			for (const property of propertyList) {
-				Stat.statList.set( [typeName, property], new Stat(`${typeName}: ${property}` ) );
+		Stat.statLists = new Map();
+		for (const side of sideTypesArray) {
+			const statList = <StatList> new Map();
+			for (const [typeName, propertyList] of Array.from(Fighter.fighterProperties)) {
+				const propertyEnum = <{[property: string]: Stat}> {};
+				propertyEnum["Number"] = new Stat(`${typeName} Number` );
+				for (const property of propertyList) {
+					propertyEnum[property] = new Stat(`${typeName} ${property}` );
+				}
+				statList.set(typeName, propertyEnum);
 			}
+			Stat.statLists.set(side, statList);
 		}
 	}
 

@@ -1,9 +1,8 @@
 export { multiplierManager };
 
 
-
 import { fightManager } from "./fight_manager.js";
-import { FighterType, SideType } from "./fighter.js";
+import { FighterType, fighterTypesArray, SideType, sideTypesArray } from "./fighter.js";
 import { gameManager } from "./game_manager.js";
 import { drawingArea } from "./drawing_area.js";
 
@@ -12,16 +11,40 @@ import { Multiplier } from "./multiplier.js";
 import { Stat } from "./stat.js";
 
 
+type MultiplierList = Map<FighterType, {[property: string]: Multiplier}>;
+
+
 class MultiplierManager extends Manager {
-	private _multipliers: Map<[FighterType, string, SideType], Multiplier>;
+	multiplierLists: Map<SideType, MultiplierList>;
 
 	constructor() {
 		super();
 		Stat.initialize();
-		this._multipliers = new Map();
-		for (const [[typeName, property], stat] of Stat.statList) {
-			this.addMultiplier(typeName, property, stat, "troop");
-			this.addMultiplier(typeName, property, stat, "enemy");
+
+		this.multiplierLists = new Map();
+
+		for (const side of sideTypesArray) {
+			const multiplierList = <MultiplierList> new Map();
+
+			const statList = Stat.statLists.get(side);
+			if (statList == undefined) {
+				throw new Error(`Can’t find the statList for ${side}.`);
+			}
+
+			const statArray = Array.from(statList.entries());
+			for (const [fighterType, propertyEnum] of statArray) {
+				
+				const multiplierEnum = <{[property: string]: Multiplier}> {};
+
+				const propertyArray = Object.entries(propertyEnum);
+				for (const [property, stat] of propertyArray) {
+					multiplierEnum[property] = new Multiplier(property, stat, side);
+				}
+
+				multiplierList.set(fighterType, multiplierEnum);
+			}
+			
+			this.multiplierLists.set(side, multiplierList);
 		}
 	}
 
@@ -54,10 +77,6 @@ class MultiplierManager extends Manager {
 		gameManager.update = fightManager.start.bind(fightManager);
 	}
 
-	addMultiplier(typeName: FighterType, property: string, stat: Stat, side: SideType) {
-		this._multipliers.set( [typeName, property, side], new Multiplier(property, stat, side) );
-	}
-
 	// getMultiplier(shortname: ShortName): Multiplier {
 	// 	const multiplier = this._multipliers.get(shortname);
 	// 	if (multiplier == undefined) {
@@ -70,12 +89,28 @@ class MultiplierManager extends Manager {
 	// 	return Array.from(this._multipliers.values());
 	// }
 	
-	get multipliers(): Map<[FighterType, string, SideType], Multiplier>  {
-		return this._multipliers;
-	}
+	// get multipliers(): Map<[FighterType, string, SideType], Multiplier>  {
+		// return this._multipliers;
+	// }
 	
 	private get multipliersArray(): Multiplier[] {
-		return Array.from( this._multipliers.values() );
+		const result =
+			Array.from(
+				this
+				.multiplierLists
+				.values()
+			)
+			.map( multiplierList =>
+				Array.from(
+					multiplierList.values()
+				)
+			)
+			.flat()
+			.map( propertyEnum =>
+				Object.values(propertyEnum)
+			)
+			.flat();
+		return result;
 	}
 }
 

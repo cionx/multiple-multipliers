@@ -12,7 +12,7 @@ class PointManager {
 	private pointDisplay: HTMLSpanElement;
 
 	constructor() {
-		this.currentPoints = 40;
+		this.currentPoints = 1;
 
 		const pointDisplay = <HTMLSpanElement|null> document.getElementById("points-left");
 		if (pointDisplay == null) {

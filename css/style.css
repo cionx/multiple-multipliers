@@ -33,7 +33,7 @@ button {
 	border-radius: 0px;
 }
 
-button:hover {
+button:enabled:hover {
 	background-color: LightSkyBlue;
 }
 
@@ -146,35 +146,44 @@ button:disabled {
 
 .update-window {
 	display: grid;
-	grid-template-columns: repeat(6, 1fr);
+	grid-template-columns: repeat(5, 1fr);
 	justify-items: center;
 	align-items: center;
 	gap: 5px;
 }
 
 .update-name {
-	grid-column: 1 / span 6;
+	grid-column: 1 / span 5;
 	text-align: center;
 }
 
-.plus-minus {
+.update-value-min {
 	grid-row: 2 / span 1;
+	grid-column: 1 / span 2; 
+}
+
+.update-value-max {
+	grid-row: 2 / span 1;
+	grid-column: 4 / span 2;
+}
+
+.plus-minus {
+	grid-row: 3 / span 1;
 	width: 2vw;
 	height: 2vw;
 }
 
-.plus-minus > span {
-	/* display: flex; */
-	/* justify-content: center; */
-	/* align-items: center; */
-	vertical-align: top;
-	/* line-height: 0px; */
+.placeholder {
+	visibility: hidden;
+	width: 0.5vw;
 }
 
-.update-value {
-	grid-row: 2 / span 1;
-	grid-column: 3 / span 2;
+.plus-minus:disabled{
+	visibility: visible;
+	border-style: dotted;
+	border-color: black;
 }
+
 
 
 /* CANVAS */
@@ -233,7 +242,6 @@ button:disabled {
 	justify-content: center;
 	align-items: center;
 	font-size: 2vw;
-	padding-bottom: 5px;
 }
 
 
