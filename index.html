@@ -15,6 +15,7 @@
 			<template id="multiplier-template">
 				<div class="multiplier-container">
 						<span class="multiplier-name"></span>
+						<span class="multiplier-sign"> × </span>
 						<div class="dice">
 							1
 						</div>
@@ -26,19 +27,36 @@
 
 		<div class="display">
 
-			<div class="shop-window">
-				<h1>
-					Updates
-				</h1>
-				<div class="shop-overview">
-					Coming Soon™
+			<div class="shop-window dropping-down">
+				
+				<div class="shop-point-display">
+					<span>
+						Points left:
+					</span>
+					<span id="points-left">
+						0
+					</span>
 				</div>
+				
 				<button class="play-button">
 					Play
 				</button>
+			
+				<template class="update-window-template">
+					<div class="update-window">
+						<span class="update-name"> Name </span>
+						<button class="update-min-minus plus-minus">  </button>
+						<button class="update-min-plus plus-minus">  </button>
+						<span class="update-value"> Value </span>
+						<button class="update-max-minus plus-minus">  </button>
+						<button class="update-max-plus plus-minus">  </button>
+					</div>
+				</template>
 			</div>
 
-			<canvas class="drawing-area"></canvas>
+			<div class="messenger-window dropping-down"></div>
+
+			<canvas class="drawing-area dropping-down"></canvas>
 			
 		</div>
 

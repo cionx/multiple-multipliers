@@ -1,4 +1,4 @@
-export { Fighter, Side };
+export { Fighter, SideType, FighterType, fighterTypesArray };
 
 
 
@@ -7,23 +7,39 @@ import { drawingArea } from "./drawing_area.js";
 import { fightManager } from "./fight_manager.js";
 import { Sprite } from "./sprite.js";
 
+import { Square } from "./square.js";
 
-type Side = "troop" | "enemy";
 
+
+const sideTypesArray = ["troop", "enemy"] as const;
+type SideType = typeof sideTypesArray[number];
+
+const fighterTypesArray = ["Square"] as const;
+type FighterType = typeof fighterTypesArray[number];
 
 abstract class Fighter {
+	static fighterProperties = new Map<FighterType, readonly string[]>();
+	static fighterConstructors = new Map<FighterType, ((coord: Coordinate, side: SideType) => Fighter)>();
+
+	static readonly color = {
+		troop: "lightskyblue",
+		enemy: "white"
+	}
+
 	coord: Coordinate
 	sprite: Sprite;
 	
-	health: number;
-	speed: number;
+	_size: number;
+	
+	_health: number;
+	_speed: number;
 
-	damage: number;
-	range: number;
-	attackDelay: number;
+	_damage: number;
+	_range: number;
+	_attackDelay: number;
 	lastAttack: number;
 
-	side: Side;
+	side: SideType;
 	target: Fighter;
 
 
@@ -34,22 +50,25 @@ abstract class Fighter {
 	constructor(
 			coord: Coordinate,
 			sprite: Sprite,
+			size: number,
 			health: number,
 			speed: number,
 			damage: number,
 			range: number,
 			attackDelay: number,
-			side: Side
+			side: SideType
 		) {
 		this.coord = coord;
 		this.sprite = sprite;
+	
+		this._size = size;
 		
-		this.health = health;
-		this.speed = speed;
+		this._health = health;
+		this._speed = speed;
 		
-		this.damage = damage;
-		this.range = range;
-		this.attackDelay = attackDelay;
+		this._damage = damage;
+		this._range = range;
+		this._attackDelay = attackDelay;
 		this.lastAttack = attackDelay;
 		
 		this.side = side;
@@ -105,10 +124,9 @@ abstract class Fighter {
 			this.target.health -= this.damage;
 			this.lastAttack = time;
 		}
-		console.log(this.target.health);
 	}
 
-	private canReachTarget(): boolean  {
+	canReachTarget(): boolean  {
 		return Fighter.distance(this, this.target) <= this.range;
 	}
 
@@ -123,18 +141,54 @@ abstract class Fighter {
 	get y(): number {
 		return this.coord.y;
 	}
-	
-	draw(): void {
-		this.sprite.draw(this.coord);
-		const ctx = drawingArea.context;
-		ctx.beginPath();
-		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(this.target.x, this.target.y);
-		ctx.stroke();
+
+	get size() {
+		return this._size;
 	}
 	
-	drawHealthBar(): void {
-		const width = this.sprite.width;
-		drawingArea.drawHealth(this.x, this.y, width, this.health);
+	get damage() {
+		return this._damage;
 	}
+
+	get health() {
+		return this._health;
+	}
+
+	get speed() {
+		return this._speed;
+	}
+
+	get attackDelay() {
+		return this._attackDelay;
+	}
+	
+	get range() {
+		return this._range;
+	}
+
+	abstract get radius(): number;
+
+	set damage(damage: number) {
+		this._damage = damage;
+	}
+
+	set health(health: number) {
+		this._health = health;
+	}
+
+	set size(size: number) {
+		this._size = size;
+	}
+	
+	set x(x: number) {
+		this.coord.x = x;
+	}
+	
+	set y(y: number) {
+	this.coord.y = y;
+	}
+	
+	abstract multiplyProperty(property: string, factor: number): void;	
+
+	abstract draw(): void;
 }

@@ -1,17 +1,25 @@
-export { shopManager };
+export { updateManager };
+
+
+
+import { gameManager } from "./game_manager.js";
+import { multiplierManager } from "./multiplier_manager.js";
+import { messenger } from "./messenger.js";
+import { Stat } from "./stat.js";
 
 
 
 import { Manager } from "./manager.js";
-import { gameManager } from "./game_manager.js";
-import { multiplierManager } from "./multiplier_manager.js";
+import { Update } from "./update.js";
 
 
 
-class ShopManager extends Manager {
+class UpdateManager extends Manager {
 
 	window: HTMLDivElement;
 	playButton: HTMLButtonElement;
+
+	private static updateList: Update[];
 
 	constructor() {
 		super();
@@ -30,22 +38,44 @@ class ShopManager extends Manager {
 		playButton.addEventListener("click", this.stop.bind(this));
 	}
 
-	start() {
+	start(): void {
 		gameManager.update = this.update.bind(this);
-		this.window.style.display = "flex";
+		this.window.style.display = "grid";
 		this.playButton.disabled = false;
 	}
 
-	update() {
+	update(): void {
 	}
 
-	stop() {
+	stop(): void {
 		gameManager.update = multiplierManager.start.bind(multiplierManager);
+		messenger.hide();
 		this.window.style.display = "none";
 		this.playButton.disabled = true;
 	}
+	
+	initializeUpdates(): void {
+		UpdateManager.updateList =
+			Array.from(
+				Stat.statList.values()
+			)
+			.map(stat =>
+				new Update(stat)
+			);
+	}
 
+	disablePlus(): void {
+		for (const update of UpdateManager.updateList) {
+			update.disablePlus();
+		}
+	}
+
+	enablePlus(): void {
+		for (const update of UpdateManager.updateList) {
+			update.enablePlus();
+		}
+	}
 }
 
-
-const shopManager = new ShopManager();
+const updateManager = new UpdateManager();
+updateManager.initializeUpdates();

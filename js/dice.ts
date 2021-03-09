@@ -1,25 +1,26 @@
-export { Dice };
+export { Dice, MAXFACES };
 
 
 
 import { Sprite } from "./sprite.js";
+import { Stat } from "./stat.js";
 import { randomInt } from "./random.js";
 
 
 
-const MAXFACES = 6;
+const MAXFACES = 20;
 
 
 
 class Dice {
 	
 	private _value: number;
-	private _faces: number;
-	private diceDisplay: HTMLSpanElement;
+	private readonly stat: Stat;
+	private readonly diceDisplay: HTMLSpanElement;
 
-	constructor (diceDisplay: HTMLSpanElement) {
+	constructor (diceDisplay: HTMLSpanElement, stat: Stat) {
 		this._value = 1;
-		this._faces = 6;
+		this.stat = stat;
 		// this.sprites = 
 		// 	Array(MAXFACES + 1)
 		// 	.fill(0)
@@ -34,14 +35,14 @@ class Dice {
 	}
 
 	reset(): void {
-		this._value = 0;
+		this._value = 1;
 	}
 
 	roll(): void {
 		let newValue = this.value;
-		while (newValue == this.value) {
-			newValue = randomInt(1, this._faces + 1);
-		}
+		// while (newValue == this.value) {
+			newValue = randomInt(this.stat.min, this.stat.max + 1);
+		// }
 		this.value = newValue;
 		this.refreshDisplay();
 	}
@@ -49,22 +50,9 @@ class Dice {
 	get value(): number {
 		return this._value;
 	}
-	
-	get faces(): number {
-		return this._faces;
-	}
 
 	set value(value: number) {
 		this._value = value;
-	}
-
-	set faces(newFaces: number) {
-		if (this.faces <= MAXFACES) {
-			this._faces = newFaces
-		}
-		else {
-			throw new Error(`Can’t set the amount of faces to ${newFaces}: the maximum is ${MAXFACES}.`);
-		}
 	}
 	
 	refreshDisplay() {

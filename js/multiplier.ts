@@ -2,8 +2,9 @@ export { Multiplier };
 
 
 
+import { Stat } from "./stat.js";
 import { Dice } from "./dice.js";
-import { Side } from "./fighter.js";
+import { SideType } from "./fighter.js";
 import { randomInt } from "./random.js";
 
 
@@ -18,7 +19,7 @@ class Multiplier {
 	private display: HTMLDivElement;
 	private diceDisplay: HTMLSpanElement;
 
-	constructor(name: string, side: Side) {
+	constructor(name: string, stat: Stat, side: SideType) {
 		this.name = name;
 
 		this.currentRollDelay = 0;
@@ -43,7 +44,7 @@ class Multiplier {
 		}
 		this.diceDisplay = diceDisplay;
 		
-		this.dice = new Dice(this.diceDisplay);
+		this.dice = new Dice(this.diceDisplay, stat);
 		
 		if (side == "troop") {
 			document.querySelector(".left")?.appendChild(this.display);

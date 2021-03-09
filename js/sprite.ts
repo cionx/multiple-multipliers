@@ -8,26 +8,15 @@ import { drawingArea } from "./drawing_area.js";
 
 
 class Sprite {
-	private readonly _image: HTMLImageElement;
 
-	constructor(filePath: string) {
-		this._image = new Image();
-		this._image.src = filePath;
+	private sides: number
+
+	constructor(sides: number) {
+		this.sides = sides;
 	}
 
-	draw(coord: Coordinate): void {
-		drawingArea.context.drawImage(this.image, coord.x, coord.y);
-	}
-
-	get image(): HTMLImageElement {
-		return this._image;
-	}
-
-	get width(): number {
-		return this._image.width;
-	}
-
-	addClass(className: string) {
-		this.image.classList.add(className);
+	draw(coord: Coordinate, size: number, color: string): void {
+		drawingArea.drawSquareFromCenter(coord, size, "black");
+		drawingArea.drawSquareFromCenter(coord, Math.min(0.9*size, size-10), color);
 	}
 }

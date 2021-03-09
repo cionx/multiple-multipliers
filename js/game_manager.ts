@@ -4,7 +4,7 @@ export { gameManager };
 
 import { Manager } from "./manager.js";
 import { fightManager } from "./fight_manager.js";
-import { shopManager } from "./shop_manager.js";
+import { updateManager } from "./update_manager.js";
 
 
 
@@ -23,7 +23,7 @@ class GameManager extends Manager {
 	}
 
 	start(): void {
-		this.update = shopManager.start.bind(shopManager);
+		this.update = updateManager.start.bind(updateManager);
 	}
 
 	update(time: number): void {

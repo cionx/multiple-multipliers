@@ -1,43 +1,41 @@
-export { fightManager };
+export { fightManager, FightManager, SideType };
 
 
 
-import { Manager } from "./manager.js";
-import { Fighter, Side } from "./fighter.js";
-import { SwordFighter } from "./swordfighter.js";
-import { Coordinate } from "./coordinate.js";
+import { Fighter, SideType } from "./fighter.js";
+import { Square } from "./square.js";
 import { drawingArea } from "./drawing_area.js";
 import { gameManager } from "./game_manager.js";
-import { shopManager } from "./shop_manager.js";
-import { multiplierManager } from "./multiplier_manager.js";
-import { randomInt } from "./random.js";
+import { Manager } from "./manager.js";
+import { messenger } from "./messenger.js";
+import { fighterInitializer } from "./fighter_initializer.js";
 
 
 
 class FightManager extends Manager {
 
-	_fighters:  { [side in Side]: Fighter[] };
+	_fighters:  { [side in SideType]: Fighter[] };
 
 	constructor() {
 		super();
 	 	this._fighters = {
-			"troop": [],
 			"enemy": [],
+			"troop": [],
 		};
 	}
 
+	static initialize() {
+		Square.initialize();
+	}
+
 	start(): void {
-		this._fighters["troop"] = [];
-		this._fighters["enemy"] = [];
-		const troopNumber = multiplierManager.getMultiplier("troopNumber").value;
-		this.addFighters(troopNumber, "troop");
-		const enemyNumber = multiplierManager.getMultiplier("enemyNumber").value;
-		this.addFighters(enemyNumber, "enemy");
-		gameManager.update = this.update.bind(this);
+		fighterInitializer.start();
 	}
 
 	update(time: number): void {
 		this.removeDead();
+		this.checkCollision();
+		this.checkBorder();
 		for (const list of Object.values(this._fighters)) {
 			if (list.length == 0) {
 				gameManager.update = this.stop.bind(this);
@@ -52,13 +50,13 @@ class FightManager extends Manager {
 	}
 	
 	stop(): void {
-		gameManager.update = shopManager.start.bind(shopManager);
+		gameManager.update = messenger.start.bind(messenger);
 	}
 
 	removeDead(): void {
 		for (const [side, list] of Object.entries(this._fighters)) {
-			this._fighters[side as Side] =
-				this._fighters[side as Side]
+			this._fighters[side as SideType] =
+				this._fighters[side as SideType]
 				.filter(fighter => fighter.isAlive);
 		}
 	}
@@ -69,37 +67,26 @@ class FightManager extends Manager {
 		for (const fighter of this.fighters) {
 			fighter.draw();
 		}
-		for (const fighter of this.fighters) {
-			fighter.drawHealthBar();
-		}
 	}
 
 	/* GETTER AND SETTER */
 
-	private addFighters(amount: number, side: Side): void {
-		const width = drawingArea.width;
-		const height = drawingArea.height;
-
-		const corner = (side == "troop" ? 0.05 : 0.85);
-		
-		while (amount > 0) {
-			const x = randomInt(corner * width, (corner + 0.1) * width);
-			const y = randomInt(0.1 * height, 0.9 * height);
-			this.addFighter(x, y, side);
-			amount--;
-		}
+	public resetFighters() {
+		this._fighters["troop"] = [];
+		this._fighters["enemy"] = [];
 	}
 
-	private addFighter(x: number, y: number, side: Side): void {
-		const fighter = new SwordFighter( new Coordinate(x, y), side);
-		this._fighters[side].push(fighter);
+	public addFighters(fighters: Fighter[], side: SideType): void {
+		for (const fighter of fighters) {
+			this._fighters[side].push(fighter);
+		}
 	}
 
 	get fighters(): Fighter[] {
 		return Object.values(this._fighters).flat();
 	}
 	
-	targetsOf(type: Side): Fighter[] {
+	targetsOf(type: SideType): Fighter[] {
 		switch(type) {
 			case "troop":
 				return this._fighters["enemy"];
@@ -107,6 +94,82 @@ class FightManager extends Manager {
 				return this._fighters["troop"];
 			default:
 				throw new Error("Try to access a non-existing list of fighters.");
+		}
+	}
+	
+	get resultString(): string {
+		const t = this._fighters.troop.length;
+		const e = this._fighters.enemy.length;
+		
+		if(t == 0) {
+			if (e == 0) {
+				return "It’s a tie!";
+			}
+			else {
+				return "You lost."
+			}
+		}
+		else {
+			if (e == 0) {
+				return "You won!"
+			}
+			else {
+				return "It’s a tie!"
+			}
+		}
+		
+	}
+
+	public checkCollision(): void {
+		const fighters = this.fighters;
+		const amount = fighters.length;
+		for (let i = 0; i < amount; i++) {
+			for (let j = 0; j < amount; j++) {
+				this.adjustCollision(fighters[i], fighters[j]);
+			}
+		}
+	}
+
+	private adjustCollision(first: Fighter, second: Fighter): void {
+		const colX = (first.radius +  second.radius) / 2 - Math.abs(first.x - second.x);
+		const colY = (first.radius +  second.radius) / 2 - Math.abs(first.y - second.y);
+
+		if (colX > 20 && colY > 20) { // allow some overlap
+			if (colX >= colY) {
+				const dx = 0.5 * Math.sign(first.x - second.x) * colX / 2;
+				first.coord.x += dx;
+				second.coord.x -= dx;
+			}
+			else {
+				const dy = 0.5 * Math.sign(first.y - second.y) * colY / 2;
+				first.y += dy;
+				second.y -= dy;
+			}
+		}
+	}
+
+	checkBorder() {
+		const width = drawingArea.width;
+		const height = drawingArea.height;
+
+		for (const fighter of this.fighters) {
+			const x = fighter.x;
+			const y = fighter.y;
+			const r = fighter.radius;
+
+			if (x - r < 0) {
+				fighter.x = r;
+			}
+			else if (x + r > width) {
+				fighter.x = width - r;
+			}
+			
+			if (y - r < 0) {
+				fighter.y = r;
+			}
+			else if (y + r > height) {
+				fighter.y = height - r;
+			}
 		}
 	}
 
