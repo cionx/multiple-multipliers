@@ -295,14 +295,25 @@ button:disabled{
 .dice {
 	width: 3vw;
 	height: 3vw;
-	border: 0.15vw solid black;
-	border-radius: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	font-size: 2vw;
 }
 
+.smalldice {
+	width: 2vw;
+	height: 2vw;
+}
+
+.dice, .smalldice {
+	border: 0.15vw solid black;
+	border-radius: 0.5vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.left .dice, .smalldice {
+	background:lightskyblue;
+}
 
 
 /* MESSAGE WINDOW */
