@@ -1,10 +1,7 @@
 export { Coordinate };
 
 
-
 import { drawingArea } from "./drawing_area.js";
-import { bernoulli } from "./random.js";
-
 
 
 class Coordinate {

@@ -1,10 +1,8 @@
 export { Sprite };
 
 
-
 import { Coordinate } from "./coordinate.js";
 import { drawingArea } from "./drawing_area.js";
-
 
 
 class Sprite {

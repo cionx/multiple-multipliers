@@ -2,7 +2,7 @@ export { updateManager };
 
 
 import { gameManager } from "./game_manager.js";
-import { multiplierManager } from "./multiplier_manager.js";
+import { diceManager } from "./dice_manager.js";
 import { messenger } from "./messenger.js";
 import { levelManager } from "./level_manager.js";
 
@@ -10,7 +10,7 @@ import { levelManager } from "./level_manager.js";
 import { FighterType } from "./fighter.js";
 import { Manager } from "./manager.js";
 import { Update } from "./update.js";
-import { Stat } from "./stat.js";
+import { statManager } from "./stat_manager.js";
 
 
 type UpdateList = Map<FighterType, {[property: string]: Update}>;
@@ -65,14 +65,14 @@ class UpdateManager extends Manager {
 	}
 
 	stop(): void {
-		gameManager.update = multiplierManager.start.bind(multiplierManager);
+		gameManager.update = diceManager.start.bind(diceManager);
 		messenger.hide();
 		this.window.style.display = "none";
 		this.playButton.disabled = true;
 	}
 	
 	initializeUpdates(): void {
-		const statList = Stat.statLists.get("troop");
+		const statList = statManager.statLists.get("troop");
 		if (statList == null) {
 			throw Error("Can’t load the stats for troops.")
 		}

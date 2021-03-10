@@ -1,14 +1,8 @@
 export { gameManager };
 
 
-
 import { Manager } from "./manager.js";
-import { fightManager } from "./fight_manager.js";
 import { updateManager } from "./update_manager.js";
-
-
-
-type gameState = "fight" | "shop" | "message";
 
 
 

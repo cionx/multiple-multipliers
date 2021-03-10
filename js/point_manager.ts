@@ -1,9 +1,7 @@
 export { pointManager };
 
 
-
 import { updateManager } from "./update_manager.js";
-
 
 
 class PointManager {

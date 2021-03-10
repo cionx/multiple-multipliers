@@ -17,9 +17,10 @@ const BASERANGE = 45;
 const BASEDELAY = 250;
 
 
-
-const propertyTypeArray = ["Size"] as const;
-
+const propertyTypeArray = <[string, number][]> [
+	["Number", 1],
+	["Size", 10]
+];
 
 
 class Square extends Fighter {

@@ -1,15 +1,10 @@
 export { messenger };
 
 
-
 import { gameManager } from "./game_manager.js";
 import { updateManager } from "./update_manager.js";
 import { Manager } from "./manager.js";
 import { fightManager } from "./fight_manager.js";
-
-
-
-
 
 
 class Messenger extends Manager {

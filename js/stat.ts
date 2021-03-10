@@ -1,44 +1,41 @@
 export { Stat };
 
 
-
-import { Fighter, FighterType, sideTypesArray } from "./fighter.js";
-import { FightManager, SideType } from "./fight_manager.js";
-
-
-type StatList = Map<FighterType, {[property: string]: Stat}>;
+import { FighterType } from "./fighter.js";
+import { SideType } from "./fight_manager.js";
+import { Dice } from "./dice.js";
 
 
 class Stat {
 
-	readonly name: string;
+	fighterType: FighterType;
+	property: string;
+
+	side: SideType;
+	
 	private _min: number;
 	private _max: number;
-	
-	public static statLists: Map<SideType, StatList>;
-	// entries are set after the class definition
+	dice: Dice;
 
-	constructor(name: string) {
-		this.name = name;
+	private _unlocked: boolean;
+	private readonly unlockLevel: number;
+
+	constructor(
+		fighterType: FighterType,
+		property: string,
+		unlockLevel: number,
+		side: SideType
+	) {
+		this.fighterType = fighterType;
+		this.property = property;
+		this.side = side;
 		this._min = 1;
 		this._max = 1;
-	}
-
-	public static initialize() {
-		FightManager.initialize();
-		Stat.statLists = new Map();
-		for (const side of sideTypesArray) {
-			const statList = <StatList> new Map();
-			for (const [typeName, propertyList] of Array.from(Fighter.fighterProperties)) {
-				const propertyEnum = <{[property: string]: Stat}> {};
-				propertyEnum["Number"] = new Stat(`${typeName} Number` );
-				for (const property of propertyList) {
-					propertyEnum[property] = new Stat(`${typeName} ${property}` );
-				}
-				statList.set(typeName, propertyEnum);
-			}
-			Stat.statLists.set(side, statList);
-		}
+		this.dice = new Dice(this);
+		this._unlocked = false;
+		this.unlockLevel = unlockLevel;
+		
+		
 	}
 
 	private setValues(min: number, max: number): void {
@@ -68,16 +65,32 @@ class Stat {
 		this.setValues( this.min, this.max - 1);
 	}
 
-	get min(): number {
+	public get name(): string {
+		return `${this.fighterType} ${this.property}`;
+	}
+
+	public get min(): number {
 		return this._min;
 	}
 
-	get max(): number {
+	public get max(): number {
 		return this._max;
 	}
 	
-	get isActive(): boolean {
+	public get value(): number {
+		return this.dice.value;
+	}
+	
+	public get isActive(): boolean {
 		return (this.max <= 0);
+	}
+
+	public get unlocked(): boolean {
+		return this.unlocked;
+	}
+
+	public adjustForLevel(level: number) {
+		this._unlocked = (level >= this.unlockLevel);
 	}
 }
 

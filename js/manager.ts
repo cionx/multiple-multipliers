@@ -1,7 +1,6 @@
 export { Manager };
 
 
-
 abstract class Manager {
 	constructor() {
 		// nothing to do here

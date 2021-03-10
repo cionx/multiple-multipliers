@@ -1,7 +1,7 @@
 import { Coordinate } from "./coordinate";
 
-export { drawingArea };
 
+export { drawingArea };
 
 
 class DrawingArea {

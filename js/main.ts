@@ -1,13 +1,10 @@
 import { gameManager } from "./game_manager.js";
 
 
-
 main();
 
 
-
 let lastSave = 0;
-
 
 
 function main(): void {

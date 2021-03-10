@@ -1,7 +1,6 @@
 export {levelManager};
 
 
-
 import { gameManager } from "./game_manager.js";
 import { fightManager } from "./fight_manager.js";
 import { messenger } from "./messenger.js";
@@ -9,6 +8,7 @@ import { messenger } from "./messenger.js";
 
 import { Manager } from "./manager.js";
 import { pointManager } from "./point_manager.js";
+import { statManager } from "./stat_manager.js";
 
 
 class LevelManager extends Manager {
@@ -80,6 +80,7 @@ class LevelManager extends Manager {
 		if( this.currentLevel < this.currentMaxLevel ) {
 			this.currentLevel++;
 		}
+		statManager.adjustForCurrentLevel(this.currentLevel);
 		this.refreshDisplay();
 	}
 	
@@ -87,10 +88,12 @@ class LevelManager extends Manager {
 		if( this.currentLevel > 1) {
 			this.currentLevel--;
 		}
+		statManager.adjustForCurrentLevel(this.currentLevel);
 		this.refreshDisplay();
 	}
 
 	increaseCurrentMaxLevel() {
+		statManager.adjustForMaxLevel(this.currentMaxLevel);
 		this.currentMaxLevel++;
 	}
 	

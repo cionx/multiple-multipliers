@@ -8,7 +8,6 @@ import { Stat } from "./stat.js";
 import { MAXFACES } from "./dice.js";
 
 
-
 class Update {
 	private stat: Stat;
 

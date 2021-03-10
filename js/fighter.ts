@@ -1,7 +1,6 @@
 export { Fighter, SideType, FighterType, fighterTypesArray, sideTypesArray };
 
 
-
 import { Coordinate } from "./coordinate.js"
 import { fightManager } from "./fight_manager.js";
 import { Sprite } from "./sprite.js";
@@ -14,7 +13,7 @@ const fighterTypesArray = ["Square"] as const;
 type FighterType = typeof fighterTypesArray[number];
 
 abstract class Fighter {
-	static fighterProperties = new Map<FighterType, readonly string[]>();
+	static fighterProperties = new Map<FighterType, [string, number][]>();
 	static fighterConstructors = new Map<FighterType, ((coord: Coordinate, side: SideType) => Fighter)>();
 
 	static readonly color = {

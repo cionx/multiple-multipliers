@@ -8,10 +8,9 @@ import { drawingArea } from "./drawing_area.js";
 
 import { Manager } from "./manager.js";
 import { randomInt } from "./random.js";
-import { Fighter, FighterType } from "./fighter.js";
-import { multiplierManager } from "./multiplier_manager.js";
+import { Fighter} from "./fighter.js";
 import { Coordinate } from "./coordinate.js";
-import { Multiplier } from "./multiplier.js";
+import { statManager } from "./stat_manager.js";
 
 
 class FighterInitializer extends Manager {
@@ -32,25 +31,22 @@ class FighterInitializer extends Manager {
 
 	generateFighters() {
 
-		const multiplierListsArray =
-			Array.from(
-				multiplierManager.multiplierLists
-			);
+		const statListsArray = Array.from( statManager.statLists.entries() );
 
-		for (const [side, multiplierList] of multiplierListsArray) {
+		for (const [side, statList] of statListsArray) {
 
-			const multiplierArray =
+			const statArray =
 				Array.from(
-					multiplierList.entries()
+					statList.entries()
 				);
 
-			for (const [fighterType, multiplierEnum] of multiplierArray) {
+			for (const [fighterType, propertyEnum] of statArray) {
 
 				const constructor = Fighter.fighterConstructors.get(fighterType);
 				if (constructor == undefined) {
 					throw new Error(`Can’t find the constructor for ${fighterType}`);
 				}
-				const amount = multiplierEnum["Number"].value;
+				const amount = propertyEnum["Number"].value;
 				
 				const fighterArray =
 					Array(amount)
@@ -59,13 +55,13 @@ class FighterInitializer extends Manager {
 						constructor(this.generateRandomCoord(side), side)
 					);
 				
-				const multiplierPairs = Object.entries(multiplierEnum);
-				for (const [property, multiplier] of multiplierPairs) {
+				const propertyArray = Object.entries(propertyEnum);
+				for (const [property, stat] of propertyArray) {
 					if (property == "Number") {
 						continue;
 					}
 					for (const fighter of fighterArray) {
-						fighter.multiplyProperty(property, multiplier.value);
+						fighter.multiplyProperty(property, stat.value);
 					}
 				}
 				
