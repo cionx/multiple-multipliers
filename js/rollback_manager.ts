@@ -35,6 +35,7 @@ class RollbackManager {
 		}
 		else {
 			this.rollbackButton.disabled = true;
+			this.rollbackButton.innerHTML = `Needs level ${this.nextLevel}`;
 		}
 	}
 

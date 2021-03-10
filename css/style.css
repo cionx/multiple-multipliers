@@ -126,6 +126,19 @@ button:disabled{
 	border-left: 3px solid black;
 }
 
+.side-title {
+	text-align: center;
+	font-size: 250%;
+	-webkit-text-stroke: 0.13vw black;
+}
+
+.left .side-title {
+	color: lightskyblue;
+}
+
+.right .side-title {
+	color: white;
+}
 
 
 /* SHOP WINDOW LAYOUT */
@@ -242,7 +255,7 @@ button:disabled{
 
 .rollback-button {
 	height: 3vw;
-	width: 8vw;
+	width: 10vw;
 }
 
 /* CANVAS */
@@ -257,6 +270,12 @@ button:disabled{
 /* SIDEBARS */
 
 .left, .right {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.multiplier-container, .multiplier-container {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;

@@ -52,9 +52,9 @@ class Dice {
 		this.valueDisplay = valueDisplay;
 		
 		if (this.stat.side == "troop") {
-			document.querySelector(".left")?.appendChild(instance);
+			document.querySelector(".left .multiplier-container")?.appendChild(instance);
 		} else {
-			document.querySelector(".right")?.appendChild(instance)
+			document.querySelector(".right .multiplier-container")?.appendChild(instance)
 		}
 	
 		this.refreshDisplay();
