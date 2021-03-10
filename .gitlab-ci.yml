@@ -1,0 +1,18 @@
+pages:
+  image: zachdeibert/typescript
+  script:
+    ## Compile all TypeScript files do JavaScript
+    ## using the rules from tsconfig.json
+    - tsc
+    - rm js/*.ts
+    ## Move the important files into a release directory
+    - mkdir -p public
+    - mv css public
+    - mv fonts public
+    - mv index.html public
+    - mv js public
+  artifacts:
+    paths:
+    - public
+  only:
+   - master
