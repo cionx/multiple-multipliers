@@ -1,16 +1,19 @@
-export { fighterInitializer }
+export { FighterInitializer }
 
 
-import { fightManager, SideType } from "./fight_manager.js";
-import { gameManager } from "./game_manager.js";
-import { drawingArea } from "./drawing_area.js";
+import {
+	gameManager,
+	fightManager,
+	statManager,
+	drawingArea,
+} from "./game_manager.js";
 
 
+import { SideType } from "./fight_manager.js";
 import { Manager } from "./manager.js";
 import { randomInt } from "./random.js";
 import { Fighter} from "./fighter.js";
 import { Coordinate } from "./coordinate.js";
-import { statManager } from "./stat_manager.js";
 
 
 class FighterInitializer extends Manager {
@@ -57,7 +60,7 @@ class FighterInitializer extends Manager {
 				
 				const propertyArray = Object.entries(propertyEnum);
 				for (const [property, stat] of propertyArray) {
-					if (property == "Number") {
+					if (property == "Number" || !stat.unlocked) {
 						continue;
 					}
 					for (const fighter of fighterArray) {
@@ -68,63 +71,6 @@ class FighterInitializer extends Manager {
 				fightManager.addFighters(fighterArray, side);
 			}
 		}
-
-		// const multipliers =
-		// 	<[FighterType, string, Multiplier][]>
-		// 	Array.from(
-		// 		multiplierManager
-		// 		.multipliers
-		// 		.entries()
-		// 	)
-		// 	.filter(list =>
-		// 		list[0][2] == side
-		// 	)
-		// 	.map(list => {
-		// 		const [[type, property, side], multiplier] = list;
-		// 		return [type, property, multiplier];
-		// 	});
-		
-		// const fighters = new Map<FighterType, Fighter[]>();
-
-		// for (const [type, property, multiplier] of multipliers ) {
-		// 	if (property == "number") {
-		// 		const constructor = Fighter.fighterConstructors.get(type);
-		// 		if (constructor == undefined) {
-		// 			throw new Error(`Can’t access the constructor for ${type}`);
-		// 		}
-		// 		const fighterArray =
-		// 			Array(multiplier.value)
-		// 			.fill(null)
-		// 			.map( () =>
-		// 				constructor( this.generateRandomCoord(side), side )
-		// 			);
-		// 		fighters.set(type, fighterArray);
-		// 	}
-		// }
-
-		// for (let i = 0; i < multipliers.length; i++) {
-		// 	console.log(i, multipliers[i]);
-		// 	const [type, property, multiplier] = multipliers[i];
-		// 	console.log(property);
-		// 	if (property == "number") {
-		// 		continue;
-		// 	}
-		// 	const fighterArray = fighters.get(type);
-		// 	if (fighterArray == undefined) {
-		// 		throw new Error(`Have to fighters of type ${type} to set property ${property} for.`);
-		// 	}
-		// 	for (const fighter of fighterArray) {
-		// 		fighter.multiplyProperty(property, multiplier.value); 
-		// 	}
-		// }
-
-		// fightManager
-		// .addFighters(
-		// 	Array.from(
-		// 		fighters.values()
-		// 	)
-		// 	.flat(),
-		// 	side);
 	}
 
 	stop() {
@@ -146,4 +92,3 @@ class FighterInitializer extends Manager {
 
 
 
-const fighterInitializer = new FighterInitializer();

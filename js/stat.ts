@@ -1,9 +1,13 @@
 export { Stat };
 
 
+import { levelManager } from "./game_manager.js";
+
+
 import { FighterType } from "./fighter.js";
 import { SideType } from "./fight_manager.js";
 import { Dice } from "./dice.js";
+import { Update } from "./update.js";
 
 
 class Stat {
@@ -13,9 +17,11 @@ class Stat {
 
 	side: SideType;
 	
-	private _min: number;
-	private _max: number;
+	min: number;
+	max: number;
+	
 	dice: Dice;
+	updater: Update | null;
 
 	private _unlocked: boolean;
 	private readonly unlockLevel: number;
@@ -29,13 +35,17 @@ class Stat {
 		this.fighterType = fighterType;
 		this.property = property;
 		this.side = side;
-		this._min = 1;
-		this._max = 1;
+
+		this.min = 1;
+		this.max = 1;
+		
 		this.dice = new Dice(this);
+		this.updater = null;
+
 		this._unlocked = false;
 		this.unlockLevel = unlockLevel;
 		
-		
+		this.adjustForLevel(levelManager.currentLevel);
 	}
 
 	private setValues(min: number, max: number): void {
@@ -45,8 +55,8 @@ class Stat {
 		if (min < 0) {
 			throw Error("Can’t set the minimum to negative.")
 		}
-		this._min = min;
-		this._max = max;
+		this.min = min;
+		this.max = max;
 	}
 
 	public increaseMin(): void {
@@ -65,16 +75,12 @@ class Stat {
 		this.setValues( this.min, this.max - 1);
 	}
 
+	public setUpdater(updater: Update) {
+		this.updater = updater;
+	}
+
 	public get name(): string {
 		return `${this.fighterType} ${this.property}`;
-	}
-
-	public get min(): number {
-		return this._min;
-	}
-
-	public get max(): number {
-		return this._max;
 	}
 	
 	public get value(): number {
@@ -86,11 +92,12 @@ class Stat {
 	}
 
 	public get unlocked(): boolean {
-		return this.unlocked;
+		return this._unlocked;
 	}
 
 	public adjustForLevel(level: number) {
 		this._unlocked = (level >= this.unlockLevel);
+		this.dice.visible = this._unlocked;
 	}
 }
 

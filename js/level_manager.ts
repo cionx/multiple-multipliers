@@ -1,14 +1,20 @@
-export {levelManager};
+export { LevelManager, LevelSaveFormat };
 
 
-import { gameManager } from "./game_manager.js";
-import { fightManager } from "./fight_manager.js";
-import { messenger } from "./messenger.js";
+import {
+	gameManager,
+	fightManager,
+	updateManager,
+	statManager,
+	pointManager,
+	rollbackManager
+} from "./game_manager.js";
 
 
 import { Manager } from "./manager.js";
-import { pointManager } from "./point_manager.js";
-import { statManager } from "./stat_manager.js";
+
+
+type LevelSaveFormat = {[name: string]: number};
 
 
 class LevelManager extends Manager {
@@ -25,7 +31,7 @@ class LevelManager extends Manager {
 		super();
 		this._currentLevel = 1;
 		this._currentMaxLevel = 1;
-		this._previousMaxLevel = 1;
+		this._previousMaxLevel = 10;
 
 		const decreaseButton = <HTMLButtonElement|null> document.querySelector(".level-back-button");
 		if (decreaseButton == null) {
@@ -48,7 +54,6 @@ class LevelManager extends Manager {
 		this.decreaseButton.addEventListener("click", this.decreaseCurrentLevel.bind(this));
 
 		this.levelDisplay = levelDisplay;
-		this.refreshDisplay();
 	}
 
 
@@ -73,35 +78,70 @@ class LevelManager extends Manager {
 	}
 
 	stop() {
-		gameManager.update = messenger.start.bind(messenger);
+		gameManager.update = updateManager.start.bind(updateManager);
 	}
 
+	getSave(): LevelSaveFormat {
+		let save = <LevelSaveFormat>
+		{
+			"currentLevel": this._currentLevel,
+			"currentMaxLevel": this._currentMaxLevel,
+			"previousMaxLevel": this._previousMaxLevel
+		};
+		return save;
+	}
+	
+	loadSave(save: LevelSaveFormat) {
+		// How to tell TypeScript that these values may be undefined?
+		this._currentLevel = save["currentLevel"];
+		this._currentMaxLevel = save["currentMaxLevel"];
+		this._previousMaxLevel = save["previousMaxLevel"];
+		this.refreshDisplay();
+	}
+
+	rollback() {
+		this.previousMaxLevel = this.currentMaxLevel;
+		this.currentLevel = 1;
+		this.currentMaxLevel = 1;
+		this.refreshDisplay();
+		gameManager.save();
+	}
+		
 	increaseCurrentLevel() {
 		if( this.currentLevel < this.currentMaxLevel ) {
 			this.currentLevel++;
 		}
-		statManager.adjustForCurrentLevel(this.currentLevel);
 		this.refreshDisplay();
+		gameManager.save();
 	}
 	
 	decreaseCurrentLevel() {
 		if( this.currentLevel > 1) {
 			this.currentLevel--;
 		}
-		statManager.adjustForCurrentLevel(this.currentLevel);
 		this.refreshDisplay();
+		gameManager.save();
 	}
 
 	increaseCurrentMaxLevel() {
-		statManager.adjustForMaxLevel(this.currentMaxLevel);
 		this.currentMaxLevel++;
+		this.refreshDisplay();
+		gameManager.save();
 	}
 	
-	private get currentLevel(): number {
+	public get currentLevel(): number {
 		return this._currentLevel;
 	}
 	
-	private set currentLevel(level: number) {
+	public get currentMaxLevel(): number {
+		return this._currentMaxLevel;
+	}
+	
+	public get previousMaxLevel(): number {
+		return this._previousMaxLevel;
+	}
+	
+	public set currentLevel(level: number) {
 		if (level > this.currentMaxLevel) {
 			throw new Error("Can’t raise the current level above the allowed maximal level.");
 		}
@@ -110,24 +150,14 @@ class LevelManager extends Manager {
 		}
 		this._currentLevel = level;
 	}
-	
-	private get currentMaxLevel(): number {
-		return this._currentMaxLevel;
-	}
 
-	private set currentMaxLevel(level: number) {
+	public set currentMaxLevel(level: number) {
 		this._currentMaxLevel = level;
-		if (this.currentMaxLevel > this.totalBestLevel) {
-		}
 	}
 
-	private get totalBestLevel(): number {
-		return this._previousMaxLevel;
-	}
-
-	private set totalBestLevel(level: number) {
-		if (level < this.totalBestLevel) {
-			throw new Error("Can’t decrease the total best level!");
+	public set previousMaxLevel(level: number) {
+		if (level < this.previousMaxLevel) {
+			throw new Error("Can’t decrease the previous maximal level!");
 		}
 		this._previousMaxLevel = level;
 	}
@@ -136,9 +166,8 @@ class LevelManager extends Manager {
 		this.levelDisplay.innerHTML = String(this.currentLevel);
 		this.decreaseButton.disabled = (this.currentLevel <= 1);
 		this.increaseButton.disabled = (this.currentLevel >= this.currentMaxLevel);
+		statManager.adjustForCurrentLevel();
+		statManager.adjustForMaxLevel();
+		rollbackManager.update();
 	}
 }
-
-
-
-const levelManager = new LevelManager();

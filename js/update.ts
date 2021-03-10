@@ -1,8 +1,7 @@
 export { Update };
 
 
-import { updateManager } from "./update_manager.js";
-import { pointManager } from "./point_manager.js";
+import { updateManager, pointManager } from "./game_manager.js";
 
 import { Stat } from "./stat.js";
 import { MAXFACES } from "./dice.js";
@@ -23,51 +22,57 @@ class Update {
 
 	constructor(stat: Stat) {
 		this.stat = stat;
+		this.stat.setUpdater(this);
 		
 		const template = <HTMLTemplateElement|null> document.querySelector(".update-window-template");
 		if (template == null) {
 			throw new Error("Can’t find the template for update boxes it the HTML document.");
 		}
-		const displayBox = <HTMLDivElement> template.content.cloneNode(true);
+		const instance = <DocumentFragment> template.content.cloneNode(true);
+
+		const displayBox = <HTMLDivElement> instance.querySelector(".update-window");
+		if (displayBox == null) {
+			throw new Error("Can’t find the update name display field in the template.");
+		}
 		this.displayBox = displayBox;
 
-		const nameDisplay = <HTMLSpanElement> displayBox.querySelector(".update-name");
+		const nameDisplay = <HTMLSpanElement> instance.querySelector(".update-name");
 		if (nameDisplay == null) {
 			throw new Error("Can’t find the update name display field in the template.");
 		}
 		this.nameDisplay = nameDisplay;
 		
-		const minDisplay = <HTMLSpanElement> displayBox.querySelector(".update-value-min");
+		const minDisplay = <HTMLSpanElement> instance.querySelector(".update-value-min");
 		if (minDisplay == null) {
 			throw new Error("Can’t find the update min-value display field in the template.");
 		}
 		this.minDisplay = minDisplay;
 		
-		const maxDisplay = <HTMLSpanElement> displayBox.querySelector(".update-value-max");
+		const maxDisplay = <HTMLSpanElement> instance.querySelector(".update-value-max");
 		if (maxDisplay == null) {
 			throw new Error("Can’t find the update max-value display field in the template.");
 		}
 		this.maxDisplay = maxDisplay;
 		
-		const minMinusButton = <HTMLButtonElement> displayBox.querySelector(".update-min-minus");
+		const minMinusButton = <HTMLButtonElement> instance.querySelector(".update-min-minus");
 		if (minMinusButton == null) {
 			throw new Error("Can’t find the update minimum plus button in the template.");
 		}
 		this.minMinusButton = minMinusButton;
 
-		const minPlusButton = <HTMLButtonElement> displayBox.querySelector(".update-min-plus");
+		const minPlusButton = <HTMLButtonElement> instance.querySelector(".update-min-plus");
 		if (minPlusButton == null) {
 			throw new Error("Can’t find the update minimum plus button in the template.");
 		}
 		this.minPlusButton = minPlusButton;
 		
-		const maxMinusButton = <HTMLButtonElement> displayBox.querySelector(".update-max-minus");
+		const maxMinusButton = <HTMLButtonElement> instance.querySelector(".update-max-minus");
 		if (maxMinusButton == null) {
 			throw new Error("Can’t find the update maximum plus button in the template.");
 		}
 		this.maxMinusButton = maxMinusButton;
 
-		const maxPlusButton = <HTMLButtonElement> displayBox.querySelector(".update-max-plus");
+		const maxPlusButton = <HTMLButtonElement> instance.querySelector(".update-max-plus");
 		if (maxPlusButton == null) {
 			throw new Error("Can’t find the update maximum plus button in the template.");
 		}
@@ -82,7 +87,7 @@ class Update {
 		
 		this.refreshDisplay();
 
-		updateManager.window.appendChild(displayBox);
+		updateManager.window.appendChild(instance);
 	}
 
 	refreshDisplay(): void {
@@ -91,6 +96,7 @@ class Update {
 		this.minDisplay.innerHTML = String(min);
 		this.maxDisplay.innerHTML = String(max);
 		this.refreshButtons();
+		this.refreshVisibility();
 	}
 
 	refreshButtons(): void {
@@ -100,6 +106,10 @@ class Update {
 		this.maxPlusButton.disabled = (this.stat.max >= MAXFACES);
 		this.minPlusButton.disabled ||= (pointManager.points <= 0);
 		this.maxPlusButton.disabled ||= (pointManager.points <= 0);
+	}
+
+	refreshVisibility() {
+		this.displayBox.style.display = (this.stat.unlocked ? "" : "none")
 	}
 	
 	disablePlus(): void {
@@ -135,5 +145,5 @@ class Update {
 		this.stat.decreaseMax();
 		pointManager.points++;
 		this.refreshDisplay();
-	}
+	}	
 }

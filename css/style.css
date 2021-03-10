@@ -26,20 +26,48 @@ img, canvas {
 
 
 
+/* TOOLTIPS */
+
+[tooltip]::before {
+	position: absolute;
+	content: attr(tooltip);
+	opacity: 0;
+	
+	background: whitesmoke;
+	border: 2px dashed black;
+	padding: 0.5vw;
+	margin-top: -4vw;
+	margin-left: -7vw;
+	font-size: 80%;
+	transition: 0.2s ease;
+}
+
+[tooltip]:hover::before {
+	opacity: 1;
+}
+
+
+
 /* BUTTONS */
 
 button {
 	border: 3px solid black;
 	border-radius: 0px;
+	width: 2vw;
+	height: 2vw;
 }
 
 button:enabled:hover {
 	background-color: LightSkyBlue;
 }
 
-button:disabled {
-	visibility: hidden;
+button:disabled{
+	visibility: visible;
+	border-style: dotted;
+	border-color: black;
+	color: black;
 }
+
 
 
 
@@ -112,11 +140,11 @@ button:disabled {
 	display: grid;
 	padding: 0% 5% 30%;
 	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(5, 1fr);
 	justify-items: center;
 	align-items: center;
 	column-gap: 5vw;
-	
-	/* background: darkblue; */
+	row-gap: 5vw;
 }
 
 .shop-point-display {
@@ -127,19 +155,19 @@ button:disabled {
 .level-navigation {
 	grid-row: 1 / span 1;
 	grid-column: 2 / span 2;
-}
-
-.navigation-button {
-	padding: 5px 20px;
-	margin: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 1vw;
 }
 
 .play-button {
-	padding: 0.6vw 5vw;
+	height: 3vw;
+	width: 8vw;
+	line-height: 0;
 	grid-row: 1 / span 1;
 	grid-column: 4 / span 1;
 }
-
 
 
 /* UPDATE BOXES*/
@@ -169,8 +197,6 @@ button:disabled {
 
 .plus-minus {
 	grid-row: 3 / span 1;
-	width: 2vw;
-	height: 2vw;
 }
 
 .placeholder {
@@ -178,13 +204,46 @@ button:disabled {
 	width: 0.5vw;
 }
 
-.plus-minus:disabled{
-	visibility: visible;
-	border-style: dotted;
-	border-color: black;
+
+/* OPTIONS */
+
+.autostart-window {
+	grid-row: 5 / span 1;
+	grid-column: 1 / span 2;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1vw;
 }
 
+#autostart-checkbox {
+	appearance: none;
+	border: 3px solid black;
+	width: 2vw;
+	height: 2vw;
+}
 
+/* #autostart-checkbox:hover {
+	padding: 3px;
+	background-color: LightSkyBlue;
+	background-clip: content-box;
+} */
+
+#autostart-checkbox:checked {
+	padding: 3px;
+	background-color: black;
+	background-clip: content-box;
+}
+
+.rollback-button {
+	grid-row: 5 / span 1;
+	grid-column: 3 / span 2;
+}
+
+.rollback-button {
+	height: 3vw;
+	width: 8vw;
+}
 
 /* CANVAS */
 

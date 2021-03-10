@@ -3,7 +3,6 @@ export { Dice, MAXFACES };
 
 import { Stat } from "./stat.js";
 import { randomInt } from "./random.js";
-import { SideType } from "./fight_manager.js";
 
 
 const MAXFACES = 50;
@@ -14,8 +13,8 @@ class Dice {
 	private _value: number;
 	private readonly stat: Stat;
 	
-	private readonly display: HTMLDivElement;
-	private readonly valueDisplay: HTMLSpanElement;
+	private displayBox: HTMLDivElement;
+	private valueDisplay: HTMLSpanElement;
 
 	private currentRollDelay: number;
 	private lastRoll: number;
@@ -27,31 +26,37 @@ class Dice {
 		this.currentRollDelay = 0;
 		this.lastRoll = 0;
 			
-		const template = <HTMLTemplateElement|null> document.getElementById("multiplier-template");
+		const template = <HTMLTemplateElement|null> document.querySelector(".multiplier-template");
 		if (template == null) {
 			throw new Error("Can’t find the template for dice displays it the HTML document.")
 		}
-
-		this.display = <HTMLDivElement> template.content.cloneNode(true);
+	
+		const instance = <DocumentFragment> template.content.cloneNode(true);
 		
-		const nameDisplay = <HTMLSpanElement|null> this.display.querySelector(".multiplier-name");
+		const displayBox = <HTMLDivElement|null> instance.querySelector(".multiplier-container");
+		if (displayBox == null) {
+			throw new Error("Can’t find the display container for dice in the template.")
+		}
+		this.displayBox = displayBox;
+		
+		const nameDisplay = <HTMLSpanElement|null> displayBox.querySelector(".multiplier-name");
 		if (nameDisplay == null) {
 			throw new Error("Can’t find the display field for dice names in the template.")
 		}
 		nameDisplay.innerHTML = stat.property;
 		
-		const valueDisplay = <HTMLSpanElement|null> this.display.querySelector(".dice");
+		const valueDisplay = <HTMLSpanElement|null> displayBox.querySelector(".dice");
 		if (valueDisplay == null) {
 			throw new Error("Can’t find the display field for dice values in the template.")
 		}
 		this.valueDisplay = valueDisplay;
 		
 		if (this.stat.side == "troop") {
-			document.querySelector(".left")?.appendChild(this.display);
+			document.querySelector(".left")?.appendChild(instance);
 		} else {
-			document.querySelector(".right")?.appendChild(this.display);
+			document.querySelector(".right")?.appendChild(instance)
 		}
-		
+	
 		this.refreshDisplay();
 	}
 
@@ -87,6 +92,10 @@ class Dice {
 	
 	get isRolling(): boolean {
 		return this.currentRollDelay < 1000;
+	}
+
+	set visible(visibility: boolean) {
+		this.displayBox.style.display = (visibility ? "" : "none");
 	}
 	
 	refreshDisplay() {

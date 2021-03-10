@@ -1,13 +1,10 @@
-export { fightManager, FightManager, SideType };
+export { FightManager, SideType };
 
+import { gameManager, drawingArea, messenger, fighterInitializer } from "./game_manager.js";
 
 import { Fighter, SideType } from "./fighter.js";
 import { Square } from "./fighter_square.js";
-import { drawingArea } from "./drawing_area.js";
-import { gameManager } from "./game_manager.js";
 import { Manager } from "./manager.js";
-import { fighterInitializer } from "./fighter_initializer.js";
-import { levelManager } from "./level_manager.js";
 
 
 class FightManager extends Manager {
@@ -22,7 +19,7 @@ class FightManager extends Manager {
 		};
 	}
 
-	static initialize() {
+	initialize() {
 		Square.initialize();
 	}
 
@@ -48,7 +45,7 @@ class FightManager extends Manager {
 	}
 	
 	stop(): void {
-		gameManager.update = levelManager.start.bind(levelManager);
+		gameManager.update = messenger.start.bind(messenger);
 	}
 
 	removeDead(): void {
@@ -176,7 +173,3 @@ class FightManager extends Manager {
 	}
 
 }
-
-
-
-const fightManager = new FightManager();

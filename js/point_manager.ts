@@ -1,7 +1,7 @@
-export { pointManager };
+export { PointManager };
 
 
-import { updateManager } from "./update_manager.js";
+import { statManager, updateManager } from "./game_manager.js";
 
 
 class PointManager {
@@ -19,6 +19,15 @@ class PointManager {
 		this.pointDisplay = pointDisplay;
 		
 		this.refreshDisplay();
+	}
+
+	rollback() {
+		for (const stat of statManager.statArray("troop")) {
+			this.points += (stat.min - 1);
+			this.points += (stat.max - 1);
+			stat.min = 1;
+			stat.max = 1;
+		}
 	}
 	
 	get points() {
@@ -42,7 +51,3 @@ class PointManager {
 		this.pointDisplay.innerHTML = String(this.points);
 	}
 }
-
-
-
-const pointManager = new PointManager();

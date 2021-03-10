@@ -1,8 +1,10 @@
 export { Sprite };
 
 
+import { drawingArea } from "./game_manager.js";
+
+
 import { Coordinate } from "./coordinate.js";
-import { drawingArea } from "./drawing_area.js";
 
 
 class Sprite {

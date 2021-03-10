@@ -1,9 +1,6 @@
 export { Square };
 
 
-import { drawingArea } from "./drawing_area.js";
-
-
 import { Coordinate } from "./coordinate.js";
 import { Fighter, SideType } from "./fighter.js";
 import { Sprite } from "./sprite.js"
@@ -19,7 +16,7 @@ const BASEDELAY = 250;
 
 const propertyTypeArray = <[string, number][]> [
 	["Number", 1],
-	["Size", 10]
+	["Size", 20]
 ];
 
 
@@ -82,11 +79,6 @@ class Square extends Fighter {
 
 	draw(): void {
 		this.sprite.draw(this.coord, this.radius, Fighter.color[this.side]);
-		const ctx = drawingArea.context;
-		// ctx.beginPath();
-		// ctx.moveTo(this.x, this.y);
-		// ctx.lineTo(this.target.x, this.target.y);
-		// ctx.stroke();
 	}
 }
 

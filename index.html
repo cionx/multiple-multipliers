@@ -12,7 +12,7 @@
 	<div class="container">
 
 		<div class="left">
-			<template id="multiplier-template">
+			<template class="multiplier-template">
 				<div class="multiplier-container">
 						<span class="multiplier-name"></span>
 						<span class="multiplier-sign"> × </span>
@@ -39,12 +39,10 @@
 				</div>
 				
 				<div class="level-navigation">
-					<div>
-						<button class="level-back-button navigation-button"> Back </button>
+						<button class="level-back-button navigation-button"> </button>
 						<span> Level </span>
 						<span class="level-display"> 1 </span>
-						<button class="level-forward-button navigation-button"> Forward </button>
-					</div>
+						<button class="level-forward-button navigation-button"> </button>
 				</div>
 
 				<button class="play-button">
@@ -67,6 +65,16 @@
 						<button class="update-max-plus plus-minus">   </button>
 					</div>
 				</template>
+				
+				<div class="autostart-window">
+					<label for="autostart-checkbox" tooltip="Automatically starts the next round after 5 seconds.">
+							Autostart
+					</label>
+					<input type="checkbox" id="autostart-checkbox">
+				</div>
+				<button class="rollback-button">
+					Rollback
+				</button>
 			</div>
 
 			<div class="messenger-window dropping-down"></div>

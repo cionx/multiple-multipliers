@@ -1,25 +1,19 @@
-export { diceManager };
+export { DiceManager };
 
 
-import { fightManager } from "./fight_manager.js";
-import { gameManager } from "./game_manager.js";
-import { drawingArea } from "./drawing_area.js";
-
+import { gameManager, fightManager, statManager, drawingArea } from "./game_manager.js";
 
 import { Manager } from "./manager.js";
 import { Dice } from "./dice.js";
-import { statManager } from "./stat_manager.js";
 
 
 class DiceManager extends Manager {
 
 	constructor() {
 		super();
-		statManager.initialize();
 	}
 
 	start(time: number) {
-		drawingArea.clear();
 		for (const dice of this.diceArray) {
 			dice.start(time);
 		}
@@ -58,6 +52,3 @@ class DiceManager extends Manager {
 		return result;
 	}
 }
-
-
-const diceManager = new DiceManager();

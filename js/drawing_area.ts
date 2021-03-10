@@ -1,7 +1,7 @@
 import { Coordinate } from "./coordinate";
 
 
-export { drawingArea };
+export { DrawingArea };
 
 
 class DrawingArea {
@@ -43,7 +43,3 @@ class DrawingArea {
 		return this.canvas.height;
 	}
 }
-
-
-
-const drawingArea = new DrawingArea();

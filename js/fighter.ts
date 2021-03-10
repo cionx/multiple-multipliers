@@ -1,8 +1,10 @@
-export { Fighter, SideType, FighterType, fighterTypesArray, sideTypesArray };
+export { Fighter, SideType, FighterType, fighterTypesArray, sideTypesArray, isFighterType };
+
+
+import { fightManager } from "./game_manager.js";
 
 
 import { Coordinate } from "./coordinate.js"
-import { fightManager } from "./fight_manager.js";
 import { Sprite } from "./sprite.js";
 
 
@@ -11,6 +13,18 @@ type SideType = typeof sideTypesArray[number];
 
 const fighterTypesArray = ["Square"] as const;
 type FighterType = typeof fighterTypesArray[number];
+
+function isFighterType(name: string): name is FighterType {
+  const contains =
+		fighterTypesArray
+		.map (type =>
+			String(type)
+		)
+		.includes(
+			name
+		);
+	return contains;
+}
 
 abstract class Fighter {
 	static fighterProperties = new Map<FighterType, [string, number][]>();

@@ -1,7 +1,7 @@
 export { Coordinate };
 
 
-import { drawingArea } from "./drawing_area.js";
+import { drawingArea } from "./game_manager.js";
 
 
 class Coordinate {
