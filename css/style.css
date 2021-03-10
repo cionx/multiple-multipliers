@@ -275,7 +275,7 @@ button:disabled{
 	justify-content: space-between;
 }
 
-.multiplier-container, .multiplier-container {
+.multiplier-box {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;

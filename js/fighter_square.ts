@@ -28,7 +28,7 @@ class Square extends Fighter {
 	}
 
 	constructor(coord: Coordinate, side: SideType) {
-		const sprite = new Sprite(4);
+		const sprite = new SquareSprite();
 		super(coord, sprite, BASESIZE, BASEHEALTH, BASESPEED, BASEDAMAGE, BASERANGE, BASEDELAY, side);
 	}
 	
@@ -78,10 +78,20 @@ class Square extends Fighter {
 	}
 
 	draw(): void {
-		this.sprite.draw(this.coord, this.radius, Fighter.color[this.side]);
+		this.sprite.draw();
 	}
 }
 
+
+class SquareSprite extends Sprite {
+	constructor() {
+		super(4);
+	}
+
+	draw() {
+		this.drawSquare(this.coord, this.radius, Fighter.color[this.side]);
+	}
+}
 
 
 function fastSqrt(x: number) {
