@@ -104,8 +104,9 @@ class Update {
 		this.maxMinusButton.disabled = (this.stat.min + 1 > this.stat.max);
 		this.minMinusButton.disabled = (this.stat.min <= 0);
 		this.maxPlusButton.disabled = (this.stat.max >= MAXFACES);
-		this.minPlusButton.disabled ||= (pointManager.points <= 0);
-		this.maxPlusButton.disabled ||= (pointManager.points <= 0);
+		// the operater ||= doesn’t compile on GitLab CI
+		this.minPlusButton.disabled = this.minPlusButton.disabled || (pointManager.points <= 0);
+		this.maxPlusButton.disabled = this.maxPlusButton.disabled || (pointManager.points <= 0);
 	}
 
 	refreshVisibility() {
