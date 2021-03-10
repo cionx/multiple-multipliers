@@ -78,7 +78,7 @@ class Square extends Fighter {
 	}
 
 	draw(): void {
-		this.sprite.draw();
+		this.sprite.draw(this.coord, this.radius, Fighter.color[this.side]);
 	}
 }
 
@@ -88,8 +88,8 @@ class SquareSprite extends Sprite {
 		super(4);
 	}
 
-	draw() {
-		this.drawSquare(this.coord, this.radius, Fighter.color[this.side]);
+	draw(coord: Coordinate, size: number, color: string) {
+		this.drawSquare(coord, size, color);
 	}
 }
 

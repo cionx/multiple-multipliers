@@ -21,5 +21,5 @@ abstract class Sprite {
 		drawingArea.drawSquareFromCenter(coord, smallerSize, color);
 	}
 
-	abstract draw(): void;
+	abstract draw(coord: Coordinate, size: number, color: string): void; 
 }
