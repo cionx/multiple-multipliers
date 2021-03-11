@@ -10,7 +10,8 @@ export {
 	fighterInitializer,
 	enemyStatManager,
 	rollbackManager,
-	messenger
+	messenger,
+	timer
 };
 
 
@@ -26,6 +27,7 @@ import { FighterInitializer } from "./fighter_initializer.js";
 import { EnemyStatManager } from "./enemy_stat_manager.js";
 import { RollbackManager } from "./rollback_manager.js";
 import { Messenger } from "./messenger.js";
+import { Timer } from "./timer.js";
 
 
 const fightManager = new FightManager();
@@ -39,6 +41,7 @@ const fighterInitializer = new FighterInitializer();
 const enemyStatManager = new EnemyStatManager();
 const rollbackManager = new RollbackManager();
 const messenger = new Messenger();
+const timer = new Timer();
 
 
 type SaveFormat = {

@@ -6,6 +6,7 @@ import {
 	fightManager,
 	statManager,
 	drawingArea,
+	timer,
 } from "./game_manager.js";
 
 
@@ -27,9 +28,9 @@ class FighterInitializer extends Manager {
 		gameManager.update = this.update.bind(this);
 	}
 
-	update() {
+	update(time: number) {
 		this.generateFighters();
-		this.stop();
+		this.stop(time);
 	}
 
 	generateFighters() {
@@ -73,7 +74,8 @@ class FighterInitializer extends Manager {
 		}
 	}
 
-	stop() {
+	stop(time: number) {
+		timer.start(time);
 		gameManager.update = fightManager.update.bind(fightManager);
 	}
 

@@ -1,6 +1,6 @@
 export { FightManager, SideType };
 
-import { gameManager, drawingArea, messenger, fighterInitializer } from "./game_manager.js";
+import { gameManager, drawingArea, messenger, fighterInitializer, timer } from "./game_manager.js";
 
 import { Fighter, SideType } from "./fighter.js";
 import { Square } from "./fighter_square.js";
@@ -50,6 +50,7 @@ class FightManager extends Manager {
 			fighter.update(time);
 		}
 		this.draw();
+		timer.update(time);
 	}
 	
 	stop(): void {

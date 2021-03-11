@@ -37,13 +37,21 @@
 	border: 2px dashed black;
 	padding: 0.5vw;
 	margin-top: -4vw;
-	margin-left: -7vw;
 	font-size: 80%;
-	transition: 0.2s ease;
 }
 
 [tooltip]:hover::before {
 	opacity: 1;
+}
+
+#autostart-label:hover::before {
+	margin-left: -7vw;
+	transition: 0.2s ease;
+}
+
+.rollback-button:hover::before {
+	margin-left: -7vw;
+	transition: 0.2s ease;
 }
 
 
@@ -380,6 +388,20 @@ button:disabled{
 
 .shop-window {
 	z-index: 2;
+}
+
+
+
+/*  TIMER */
+
+.bottom {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.timer {
+	font-size: 150%;
 }
 
 
