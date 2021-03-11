@@ -7,10 +7,11 @@ pages:
     - rm js/*.ts
     ## Move the important files into a release directory
     - mkdir -p public
-    - mv css public
-    - mv fonts public
-    - mv index.html public
     - mv js public
+    - mv fonts public
+    - mv music public
+    - mv css public
+    - mv index.html public
   artifacts:
     paths:
     - public
