@@ -1,11 +1,11 @@
-export { Dice, MAXFACES };
+export { Dice };
 
 
 import { Stat } from "./stat.js";
 import { randomInt } from "./random.js";
 
 
-const MAXFACES = 50;
+// const MAXFACES = 50;
 
 
 class Dice {
