@@ -37,7 +37,8 @@
 	border: 2px dashed black;
 	padding: 0.5vw;
 	margin-top: -4vw;
-	font-size: 80%;
+	font-size: 60%;
+	transition: 0.2s ease;
 }
 
 [tooltip]:hover::before {
@@ -46,12 +47,14 @@
 
 #autostart-label:hover::before {
 	margin-left: -7vw;
-	transition: 0.2s ease;
 }
 
 .rollback-button:hover::before {
 	margin-left: -8vw;
-	transition: 0.2s ease;
+}
+
+.timer:hover::before {
+	margin-left: -17vw;
 }
 
 

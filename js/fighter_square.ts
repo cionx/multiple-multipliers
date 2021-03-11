@@ -80,7 +80,7 @@ class Square extends Fighter {
 	}
 	
 	get range(): number {
-		return 1.1 * this.radius;
+		return 1.2 * this.radius;
 	}
 
 	get radius(): number {

@@ -7,15 +7,11 @@ import { Manager } from "./manager.js";
 
 class EnemyStatManager extends Manager {
 
-	private points: number;
-
 	constructor() {
 		super();
-		this.points = 0;
 	}
 	
 	start() {
-		this.calculatePoints();
 		this.update();
 	}
 
@@ -51,18 +47,35 @@ class EnemyStatManager extends Manager {
 		gameManager.update = diceManager.start.bind(diceManager);
 	}
 
-	calculatePoints() {
-		// start with 1
-		// then gain 1 point for levels 1, ..., 10,
-		// then gain 2 points for levels 11, ..., 20
-		// and so on ...
+	private get points(): number {
+		// // start with 1
+		// // then gain 1 point for levels 1, ..., 10,
+		// // then gain 2 points for levels 11, ..., 20
+		// // and so on ...
+		// const level = levelManager.currentLevel;
+		// const tens = Math.floor(level/10);
+		// this.points =
+		// 	1
+		// 	+ 10 * (tens**2 + tens) / 2
+		// 	+ (tens + 1) * (level % 10);
+		// console.log(`Enemy points for level ${level}: ${this.points}`);
+
 		const level = levelManager.currentLevel;
-		const tens = Math.floor(level/10);
-		this.points =
-			1
-			+ 10 * (tens**2 + tens) / 2
-			+ (tens + 1) * (level % 10);
-		console.log(`Enemy points for level ${level}: ${this.points}`);
+		if (level <= 10) {
+			return level;
+		}
+		else if (level <= 50) {
+			return 2 * level - 10;
+		}
+		else if (level <= 100) {
+			return 3 * level - 60;
+		}
+		else if (level <= 150) {
+			return 4 * level - 160;
+		}
+		else {
+			return 5 * level - 310;
+		}
 	}
 
 }

@@ -33,7 +33,7 @@ class FightManager extends Manager {
 	}
 
 	update(time: number): void {
-		this.removeDead();
+		this.removeDead(time);
 		this.checkCollision();
 		this.checkBorder();
 		for (const list of Object.values(this._fighters)) {
@@ -57,11 +57,17 @@ class FightManager extends Manager {
 		gameManager.update = messenger.start.bind(messenger);
 	}
 
-	removeDead(): void {
+	removeDead(time: number): void {
 		for (const [side, list] of Object.entries(this._fighters)) {
-			this._fighters[side as SideType] =
-				this._fighters[side as SideType]
-				.filter(fighter => fighter.isAlive);
+			
+			const before = list.length;
+
+			this._fighters[side as SideType] = list.filter(fighter => fighter.isAlive);
+
+			const after = this._fighters[side as SideType].length;
+			if (after < before) {
+				timer.start(time);
+			}
 		}
 	}
 	
