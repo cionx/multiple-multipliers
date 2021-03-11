@@ -20,7 +20,7 @@ const BASEDELAY = 250;
 const propertyArray = <[string, number][]> [
 	["Number", 1],
 	["Size", 20],
-	["Vampirism", 60],
+	["Vampirism", 70],
 ];
 
 
@@ -48,6 +48,7 @@ class Square extends Fighter {
 				break;
 			case "Vampirism":
 				this.vampirism += 1 - (0.98)**value;
+				break;
 			default:
 				throw new Error(`Can’t find property ${property} of class Square.`)
 		}

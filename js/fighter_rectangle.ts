@@ -26,7 +26,7 @@ const BASEDELAY = 2500;
 const propertyArray = <[string, number][]> [
 	["Number", 50],
 	["Size", 50],
-	["Splash", 60]
+	["Splash", 70]
 ];
 
 
@@ -59,6 +59,7 @@ class Rectangle extends Fighter {
 				break;
 			case "Splash":
 				this.splashRange += factor * 10;
+				break;
 			default:
 				throw new Error(`Can’t find property ${property} of class Rectangle.`)
 		}
