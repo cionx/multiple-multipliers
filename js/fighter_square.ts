@@ -97,7 +97,7 @@ class Square extends Fighter {
 	}
 
 	get radius(): number {
-		return BASESIZE * (this.size)**(1/3) / 2;
+		return BASESIZE * (this.size)**(1/3);
 	}
 	
 	get hRadius(): number {

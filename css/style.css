@@ -284,6 +284,14 @@ button:disabled{
 	width: 0.5vw;
 }
 
+.update-window.Square {
+	grid-row: 2 / span 1;
+}
+
+.update-window.Rectangle {
+	grid-row: 3 / span 1;
+}
+
 
 /* OPTIONS */
 
@@ -319,6 +327,42 @@ button:disabled{
 	width: 12vw;
 }
 
+
+
+/* AUDIO */
+
+.audio-control {
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+	align-items: center;
+	gap: 1vw;
+}
+
+.mute-button {
+	height: 2.5vw;
+	width: 6vw;
+}
+
+.volume-slider {
+	-webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb,
+.volume-slider::-moz-range-thumb {
+	width: 0.5vw;
+	height: 1vw;
+	border: 2px solid black;
+	border-radius: 0;
+	background-color: whitesmoke;
+}
+
+.volume-slider::-webkit-slider-runnable-track,
+.volume-slider::-moz-range-track {
+	height: 3px;
+	width: 100%;
+	background-color: black;
+}
 
 
 /* CANVAS */

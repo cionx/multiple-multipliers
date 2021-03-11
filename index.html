@@ -9,6 +9,8 @@
 
 <body>
 
+	<audio src="music/music.ogg" autoplay loop></audio>
+
 	<div class="container">
 
 		<div class="left">
@@ -45,9 +47,10 @@
 				<h1>Multiple Multipliers</h1>
 
 				<div>
-					This game was made by <span class="highlight">cionx</span> over one week for the
-					<a href="https://itch.io/jam/minimalist-game-jam-1">Minimalist Game Jam #1</a>.
-					The theme of the Jam was “Multi”.
+					This game was made by <span class="highlight">cionx</span> for the
+					<a href="https://itch.io/jam/minimalist-game-jam-1">Minimalist Game Jam #1</a>
+					over the course of one week.
+					The theme of the jam was “Multi”.
 				</div>
 
 				<div>
@@ -55,12 +58,26 @@
 					The code is publicly available at
 					<a href="https://gitlab.com/cionx/multiple-multipliers">https://gitlab.com/cionx/multiple-multipliers</a>.
 				</div>
+
+				<div>
+					The background music was created by <span class="highlight">Berber</span> on short notice.
+					(He hacked it together for the game creator shortly before the deadline.
+					Find out more about him on <a href="https://zmberber.com/">https://zmberber.com</a>.)
+				</div>
 			
 				<div>
-					The font used is <span class="highlight">Valera Round</span>,
+					This game uses the font <span class="highlight">Valera Round</span>,
 					which is published under OLF 1.1 on
 					<a href="https://fonts.google.com/specimen/Varela+Round">Google Fonts</a>.
 				</div>
+
+				<div class="audio-control">
+					<span> Music:</span>
+					<input type="range" class="volume-slider" name="volume" min="0" step="5" max="100">
+					<button class="mute-button">
+						Mute
+					</button>
+				</div>	
 
 				<button class="reset-button" tooltip="Delete your save file.">
 					Delete Save

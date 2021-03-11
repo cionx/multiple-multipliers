@@ -35,6 +35,7 @@ class Update {
 			throw new Error("Can’t find the update name display field in the template.");
 		}
 		this.displayBox = displayBox;
+		this.displayBox.classList.add( stat.fighterType );
 
 		const nameDisplay = <HTMLSpanElement> instance.querySelector(".update-name");
 		if (nameDisplay == null) {

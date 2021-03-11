@@ -4,6 +4,11 @@ export { OptionsManager };
 
 class OptionsManager {
 	
+	audio: HTMLAudioElement;
+	
+	muteButton: HTMLButtonElement;
+	volumeSlider: HTMLInputElement;
+
 	optionsButton: HTMLButtonElement;
 	optionsWindow: HTMLDivElement;
 
@@ -22,6 +27,22 @@ class OptionsManager {
 			throw new Error("Can’t find the options window in the HTML document.")
 		}
 		this.optionsWindow = optionsWindow;
+
+		this.audio = document.getElementsByTagName("audio")[0];
+
+		const volumeSlider = <HTMLInputElement|null> document.querySelector(".volume-slider");
+		if (volumeSlider == null) {
+			throw new Error("Can’t find the volume slider in the HTML document.")
+		}
+		this.volumeSlider = volumeSlider;
+		this.volumeSlider.addEventListener("input", this.adjustVolume.bind(this));
+
+		const muteButton = <HTMLButtonElement|null> document.querySelector(".mute-button");
+		if (muteButton == null) {
+			throw new Error("Can’t find the mute button in the HTLM document.");
+		}
+		this.muteButton = muteButton;
+		this.muteButton.addEventListener("click", this.toggleMute.bind(this));
 
 		this.isOpen = false;
 
@@ -48,7 +69,7 @@ class OptionsManager {
 
 	open() {
 		this.optionsWindow.style.display = "";
-		this.optionsButton.innerHTML = "Update";
+		this.optionsButton.innerHTML = "Updates";
 		this.isOpen = true;
 	}
 	
@@ -61,5 +82,15 @@ class OptionsManager {
 	stop() {
 		this.close();
 		this.optionsButton.style.display = "none";
+	}
+
+	adjustVolume() {
+		const value = this.volumeSlider.valueAsNumber;
+		this.audio.volume = value/100;
+	}
+
+	toggleMute() {
+		this.audio.muted = !this.audio.muted;
+		this.muteButton.innerHTML = (this.audio.muted ? "Unmute" : "Mute");
 	}
 }
