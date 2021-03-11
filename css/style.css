@@ -346,6 +346,8 @@ button:disabled{
 
 input[type="range"] {
 	-webkit-appearance: none;
+	-moz-appearance:    none;
+	appearance:         none;
 	background: transparent;
 }
 
@@ -353,21 +355,23 @@ input[type="range"] {
 .volume-slider::-webkit-slider-thumb,
 .volume-slider::-moz-range-thumb {
 	-webkit-appearance: none;
+	-moz-appearance:    none;
+	appearance:         none;
 	width: 0.5vw;
 	height: 1vw;
 	border: 2px solid black;
 	border-radius: 0;
 	background-color: whitesmoke;
-	-webkit-appearance: none;
 }
 
 .volume-slider::-webkit-slider-runnable-track,
 .volume-slider::-moz-range-track {
 	-webkit-appearance: none;
+	-moz-appearance:    none;
+	appearance:         none;
 	height: 3px;
 	width: 100%;
 	background-color: black;
-	-webkit-appearance: none;
 }
 
 
