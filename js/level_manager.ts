@@ -111,7 +111,6 @@ class LevelManager extends Manager {
 			this.currentLevel++;
 		}
 		this.refreshDisplay();
-		gameManager.save();
 	}
 	
 	decreaseCurrentLevel() {
@@ -119,13 +118,11 @@ class LevelManager extends Manager {
 			this.currentLevel--;
 		}
 		this.refreshDisplay();
-		gameManager.save();
 	}
 
 	increaseCurrentMaxLevel() {
 		this.currentMaxLevel++;
 		this.refreshDisplay();
-		gameManager.save();
 	}
 	
 	public get currentLevel(): number {

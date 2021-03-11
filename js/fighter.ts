@@ -120,7 +120,7 @@ abstract class Fighter {
 			throw new Error("Fighter can’t find a target!");
 		}
 		
-		if (minDistY < minDistD && minDistY > 200) {
+		if (minDistY < minDistD && minDistY > 300) {
 			this.target = targetY;
 		}
 		else {

@@ -5,7 +5,7 @@ main();
 
 
 let lastSave = 0;
-const SAVEINTERVAL = 60000;
+const SAVEINTERVAL = 30000;
 
 
 function main(): void {

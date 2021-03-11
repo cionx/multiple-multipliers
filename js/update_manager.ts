@@ -1,7 +1,7 @@
 export { UpdateManager };
 
 
-import { gameManager, statManager, messenger, enemyStatManager, drawingArea, timer } from "./game_manager.js";
+import { gameManager, statManager, messenger, enemyStatManager, drawingArea, timer, optionManager } from "./game_manager.js";
 
 
 import { FighterType } from "./fighter.js";
@@ -54,6 +54,7 @@ class UpdateManager extends Manager {
 
 	start(time: number): void {
 		timer.stop();
+		optionManager.start();
 		this.refreshDisplay();
 		this.window.style.display = "";
 		this.playButton.disabled = false;
@@ -71,6 +72,7 @@ class UpdateManager extends Manager {
 	}
 
 	stop(): void {
+		optionManager.stop();
 		drawingArea.clear();
 		gameManager.update = enemyStatManager.start.bind(enemyStatManager);
 		messenger.hide();

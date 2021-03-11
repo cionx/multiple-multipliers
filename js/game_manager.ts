@@ -10,6 +10,7 @@ export {
 	fighterInitializer,
 	enemyStatManager,
 	rollbackManager,
+	optionManager,
 	messenger,
 	timer
 };
@@ -26,6 +27,7 @@ import { DrawingArea } from "./drawing_area.js";
 import { FighterInitializer } from "./fighter_initializer.js";
 import { EnemyStatManager } from "./enemy_stat_manager.js";
 import { RollbackManager } from "./rollback_manager.js";
+import { OptionsManager } from "./options_manager.js";
 import { Messenger } from "./messenger.js";
 import { Timer } from "./timer.js";
 
@@ -40,6 +42,7 @@ const drawingArea = new DrawingArea();
 const fighterInitializer = new FighterInitializer();
 const enemyStatManager = new EnemyStatManager();
 const rollbackManager = new RollbackManager();
+const optionManager = new OptionsManager();
 const messenger = new Messenger();
 const timer = new Timer();
 
@@ -61,6 +64,7 @@ class GameManager extends Manager {
 		statManager.initialize();
 		updateManager.initializeUpdates();
 		levelManager.initialize();
+		optionManager.initialization();
 	}
 
 	save(): void {
@@ -89,6 +93,10 @@ class GameManager extends Manager {
 	loadSave(save: SaveFormat) {
 		levelManager.loadSave( save["levelManager"] );
 		statManager.loadSave( save["statManager"] );
+	}
+
+	deleteSave() {
+		localStorage.removeItem("cionx_multiple-multipliers_save");
 	}
 
 	start(): void {

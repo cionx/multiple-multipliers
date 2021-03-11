@@ -22,7 +22,7 @@ class Timer {
 	}
 
 	start(time: number) {
-		this.timeDisplay.style.visibility = "";
+		this.timeDisplay.style.display = "";
 		this.startTime = time;
 	}
 
@@ -34,7 +34,7 @@ class Timer {
 	}
 	
 	stop() {
-		this.timeDisplay.style.visibility = "hidden";
+		this.timeDisplay.style.display = "none";
 	}
 
 	refreshDisplay(time: number) {
