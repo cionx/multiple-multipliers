@@ -31,18 +31,17 @@
 [tooltip]::before {
 	position: absolute;
 	content: attr(tooltip);
-	opacity: 0;
+	display: none;
 	
 	background: whitesmoke;
 	border: 2px dashed black;
 	padding: 0.5vw;
 	margin-top: -4vw;
 	font-size: 60%;
-	transition: 0.2s ease;
 }
 
 [tooltip]:hover::before {
-	opacity: 1;
+	display: block;
 }
 
 #autostart-label:hover::before {
@@ -50,7 +49,7 @@
 }
 
 .rollback-button:hover::before {
-	margin-left: -8vw;
+	margin-left: -5vw;
 }
 
 .timer:hover::before {

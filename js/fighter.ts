@@ -97,22 +97,36 @@ abstract class Fighter {
 
 	private chooseTarget() {
 		const enemies = fightManager.targetsOf(this.side);
-		let minDist = Infinity;
-		let target = null;
+		let minDistD = Infinity;
+		let targetD = null;
+		let minDistY = Infinity;
+		let targetY = null;
+
 
 		for (const enemy of enemies) {
-			const dist = Math.abs(this.y - enemy.y);
-			if (dist < minDist) {
-				minDist = dist;
-				target = enemy;
+			const distY = Math.abs(this.y - enemy.y);
+			const distD = Fighter.distance(this, enemy);
+			if (distD < minDistD) {
+				minDistD = distD;
+				targetD = enemy;
+			}
+			if (distY < minDistY) {
+				minDistY = distY;
+				targetY = enemy;
 			}
 		}
 
-		if (target == null) {
+		if (targetD == null || targetY == null) {
 			throw new Error("Fighter can’t find a target!");
 		}
 		
-		this.target = target;
+		if (minDistY < minDistD && minDistY > 200) {
+			this.target = targetY;
+		}
+		else {
+			this.target = targetD;
+		}
+
 		this.update = this.move;
 	}
 	

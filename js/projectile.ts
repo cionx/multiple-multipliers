@@ -5,7 +5,7 @@ import { fightManager } from "./game_manager.js";
 
 
 import { Coordinate } from "./coordinate.js"
-import { SideType } from "./fighter.js";
+import { Fighter, SideType } from "./fighter.js";
 import { Sprite } from "./sprite.js";
 
 
@@ -44,7 +44,7 @@ class Projectile {
 		
 		this.side = side;
 		
-		this.size = 5 * Math.sqrt(this.damage);
+		this.size = 5 + Math.sqrt(this.damage);
 		this.sprite = new ProjectileSprite();
 	}
 
@@ -75,7 +75,7 @@ class Projectile {
 	canReachTarget(): boolean {
 		return Coordinate.distance(this.coord, this.target) <= ACCURACY;
 	}
-	
+
 	explode() {
 		const targetList = fightManager.targetsOf(this.side);
 		const targetsInSplash =
@@ -90,7 +90,7 @@ class Projectile {
 		}	
 		this.update = this.stop;	
 	}
-	
+
 	get speed(): number {
 		return BASESPEED;
 	}

@@ -21,8 +21,9 @@ abstract class Sprite {
 	
 	drawRectangle(coord: Coordinate, width: number, height: number, color: string): void {
 		drawingArea.drawRectangleFromCenter(coord, width, height, "black");
-		const smallerWidth = Math.max(0, Math.min(0.9 * width, width - 10));
-		const smallerHeight = Math.max(0, Math.min(0.9 * height, height - 10));
+		const borderWidth = 5;
+		const smallerWidth = Math.max(0, width - borderWidth);
+		const smallerHeight = Math.max(0, height - borderWidth);
 		drawingArea.drawRectangleFromCenter(coord, smallerWidth, smallerHeight, color);
 	}
 	

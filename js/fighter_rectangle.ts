@@ -17,15 +17,16 @@ const BASEWIDTH = SIZETOWIDTH * BASESIZE;
 const BASEHEIGHT = SIZETOHEIGHT * BASESIZE;
 const BASEHEALTH = SIZETOHEALTH * BASESIZE;
 const BASESPEED = 1.8;
-const BASEDAMAGE = 20;
-const BASESPLASH = 70;
-const BASERANGE = 600;
-const BASEDELAY = 2000;
+const BASEDAMAGE = 10;
+const BASESPLASH = 50;
+const BASERANGE = 700;
+const BASEDELAY = 2500;
 
 
 const propertyArray = <[string, number][]> [
 	["Number", 50],
-	["Size", 50]
+	["Size", 50],
+	["Splash", 60]
 ];
 
 
@@ -34,17 +35,21 @@ const SQRT2 = Math.sqrt(2);
 
 class Rectangle extends Fighter {
 
-	size: number;
-	
 	static initialize(): void {
 		Fighter.fighterProperties.set("Rectangle", propertyArray);
 		Fighter.fighterConstructors.set("Rectangle", ( (coord: Coordinate, side: SideType) => new Rectangle(coord, side) ) );
 	}
+	
+	size: number;
+	splashRange: number;
 
+	
 	constructor(coord: Coordinate, side: SideType) {
 		const sprite = new RectangleSprite();
 		super(coord, sprite, BASEWIDTH, BASEHEIGHT, BASEHEALTH, BASESPEED, BASEDAMAGE, BASERANGE, BASEDELAY, side);
+
 		this.size = BASESIZE;
+		this.splashRange = BASESPLASH;
 	}
 
 	multiplyProperty(property: string, factor: number) {
@@ -52,6 +57,8 @@ class Rectangle extends Fighter {
 			case "Size":
 				this.size *= factor;
 				break;
+			case "Splash":
+				this.splashRange += factor * 10;
 			default:
 				throw new Error(`Can’t find property ${property} of class Rectangle.`)
 		}
@@ -73,16 +80,20 @@ class Rectangle extends Fighter {
 		return SIZETOHEALTH * this.size;
 	}
 	
+	get damage(): number {
+		return BASEDAMAGE * (this.size / BASESIZE)
+	}
+	
 	get range(): number {
 		return BASERANGE + 10 * (this.size / BASESIZE);
 	}
 
-	get splashRange(): number {
-		return BASESPLASH;
+	get attackDelay(): number {
+		return BASEDELAY + 25 * (this.size / BASESIZE);
 	}
 
 	get hRadius(): number {
-		return BASESIZE * Math.sqrt(this.size/2) / SQRT2;
+		return BASESIZE * Math.sqrt(this.size) / 5;
 	}
 
 	get vRadius(): number {

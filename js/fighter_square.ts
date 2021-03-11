@@ -11,7 +11,7 @@ const SIZETOHEALTH = 6;
 const BASESIZE = 10;
 const BASEHEALTH = SIZETOHEALTH * BASESIZE;
 const BASESPEED = 2;
-const BASEDAMAGE = 5;
+const BASEDAMAGE = 10;
 const BASERANGE = 45;
 const BASEDELAY = 250;
 
@@ -20,7 +20,7 @@ const BASEDELAY = 250;
 const propertyArray = <[string, number][]> [
 	["Number", 1],
 	["Size", 20],
-	["Vampirism", 75],
+	["Vampirism", 60],
 ];
 
 
@@ -38,6 +38,7 @@ class Square extends Fighter {
 		const sprite = new SquareSprite();
 		super(coord, sprite, BASESIZE, BASESIZE, BASEHEALTH, BASESPEED, BASEDAMAGE, BASERANGE, BASEDELAY, side);
 		this.size = BASESIZE;
+		this.vampirism = 0;
 	}
 
 	multiplyProperty(property: string, value: number) {
@@ -46,7 +47,7 @@ class Square extends Fighter {
 				this.size *= value;
 				break;
 			case "Vampirism":
-				this.vampirism += 1 - (0.99)**value;
+				this.vampirism += 1 - (0.98)**value;
 			default:
 				throw new Error(`Can’t find property ${property} of class Square.`)
 		}
@@ -96,7 +97,7 @@ class Square extends Fighter {
 	}
 
 	get radius(): number {
-		return BASESIZE * Math.sqrt(this.size/2);
+		return BASESIZE * (this.size)**(1/3) / 2;
 	}
 	
 	get hRadius(): number {

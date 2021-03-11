@@ -60,22 +60,37 @@ class EnemyStatManager extends Manager {
 		// 	+ (tens + 1) * (level % 10);
 		// console.log(`Enemy points for level ${level}: ${this.points}`);
 
+		// points
+		// 10: 10
+		// 20: 30
+		// 30: 60
+		// 40: 100
+		// 50: 150
+		// 60: 
 		const level = levelManager.currentLevel;
-		if (level <= 10) {
-			return level;
-		}
-		else if (level <= 50) {
-			return 2 * level - 10;
-		}
-		else if (level <= 100) {
-			return 3 * level - 60;
-		}
-		else if (level <= 150) {
-			return 4 * level - 160;
-		}
-		else {
-			return 5 * level - 310;
-		}
+		
+		const tens = Math.floor(level / 10);
+
+		return 1 + 10 * (tens**2 + tens) / 2 + (tens + 1) * (level % 10);
+
+		// if (level <= 10) {
+		// 	return level;
+		// }
+		// else if (level <= 30) {
+		// 	return 2 * level - 10;
+		// }
+		// else if (level <= 50) {
+		// 	return 3 * level - 40;
+		// }
+		// else if (level <= 80) {
+		// 	return 5 * level - 140
+		// }
+		// else if (level <= 100) {
+		// 	return 6 * level - 220
+		// }
+		// else {
+		// 	return 7 * level
+		// }
 	}
 
 }
