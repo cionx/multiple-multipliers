@@ -1,7 +1,7 @@
 export { Stat };
 
 
-import { levelManager } from "./game_manager.js";
+import { levelManager, statManager } from "./game_manager.js";
 
 
 import { FighterType } from "./fighter.js";
@@ -57,6 +57,7 @@ class Stat {
 		}
 		this.min = min;
 		this.max = max;
+		statManager.adjustTypeBoxes();
 	}
 
 	public increaseMin(): void {
@@ -84,7 +85,7 @@ class Stat {
 	}
 	
 	public get value(): number {
-		return this.dice.value;
+		return (this.unlocked ? this.dice.value : 0);
 	}
 	
 	public get isActive(): boolean {

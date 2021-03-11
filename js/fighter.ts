@@ -11,7 +11,7 @@ import { Sprite } from "./sprite.js";
 const sideTypesArray = ["troop", "enemy"] as const;
 type SideType = typeof sideTypesArray[number];
 
-const fighterTypesArray = ["Square"] as const;
+const fighterTypesArray = ["Square", "Rectangle"] as const;
 type FighterType = typeof fighterTypesArray[number];
 
 function isFighterType(name: string): name is FighterType {
@@ -38,7 +38,8 @@ abstract class Fighter {
 	coord: Coordinate
 	sprite: Sprite;
 	
-	_size: number;
+	_width: number;
+	_height: number;
 	
 	_health: number;
 	_speed: number;
@@ -59,7 +60,8 @@ abstract class Fighter {
 	constructor(
 			coord: Coordinate,
 			sprite: Sprite,
-			size: number,
+			width: number,
+			height: number,
 			health: number,
 			speed: number,
 			damage: number,
@@ -70,7 +72,8 @@ abstract class Fighter {
 		this.coord = coord;
 		this.sprite = sprite;
 	
-		this._size = size;
+		this._width = width;
+		this._height = height;
 		
 		this._health = health;
 		this._speed = speed;
@@ -130,9 +133,13 @@ abstract class Fighter {
 			return;
 		}
 		if (time >= this.lastAttack + this.attackDelay) {
-			this.target.health -= this.damage;
+			this.hit();
 			this.lastAttack = time;
 		}
+	}
+	
+	protected hit() {
+		this.target.health -= this.damage;
 	}
 
 	canReachTarget(): boolean  {
@@ -151,8 +158,12 @@ abstract class Fighter {
 		return this.coord.y;
 	}
 
-	get size() {
-		return this._size;
+	get width() {
+		return this._width;
+	}
+	
+	get height() {
+		return this._height
 	}
 	
 	get damage() {
@@ -175,7 +186,9 @@ abstract class Fighter {
 		return this._range;
 	}
 
-	abstract get radius(): number;
+	abstract get hRadius(): number;
+
+	abstract get vRadius(): number;
 
 	set damage(damage: number) {
 		this._damage = damage;
@@ -185,8 +198,12 @@ abstract class Fighter {
 		this._health = health;
 	}
 
-	set size(size: number) {
-		this._size = size;
+	set width(width: number) {
+		this._width = width;
+	}
+	
+	set height(height: number) {
+		this._height = height;
 	}
 	
 	set x(x: number) {
@@ -199,5 +216,7 @@ abstract class Fighter {
 	
 	abstract multiplyProperty(property: string, factor: number): void;	
 
-	abstract draw(): void;
+	draw(): void {
+		this.sprite.drawRectangle(this.coord, this.width, this.height, Fighter.color[this.side]);
+	}
 }

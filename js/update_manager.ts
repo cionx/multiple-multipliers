@@ -1,7 +1,7 @@
 export { UpdateManager };
 
 
-import { gameManager, statManager, diceManager, messenger, enemyStatManager, drawingArea } from "./game_manager.js";
+import { gameManager, statManager, messenger, enemyStatManager, drawingArea } from "./game_manager.js";
 
 
 import { FighterType } from "./fighter.js";

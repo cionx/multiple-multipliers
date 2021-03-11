@@ -5,11 +5,14 @@ import { gameManager, drawingArea, messenger, fighterInitializer } from "./game_
 import { Fighter, SideType } from "./fighter.js";
 import { Square } from "./fighter_square.js";
 import { Manager } from "./manager.js";
+import { Rectangle } from "./fighter_rectangle.js";
+import { Projectile } from "./projectile.js";
 
 
 class FightManager extends Manager {
 
 	_fighters:  { [side in SideType]: Fighter[] };
+	projectiles: Projectile[];
 
 	constructor() {
 		super();
@@ -17,10 +20,12 @@ class FightManager extends Manager {
 			"enemy": [],
 			"troop": [],
 		};
+		this.projectiles = [];
 	}
 
 	initialize() {
 		Square.initialize();
+		Rectangle.initialize();
 	}
 
 	start(): void {
@@ -38,6 +43,9 @@ class FightManager extends Manager {
 			}
 		}
 		drawingArea.clear();
+		for (const projectile of this.projectiles) {
+			projectile.update(time);
+		}
 		for (const fighter of this.fighters) {
 			fighter.update(time);
 		}
@@ -62,19 +70,31 @@ class FightManager extends Manager {
 		for (const fighter of this.fighters) {
 			fighter.draw();
 		}
+		for (const projectile of this.projectiles) {
+			projectile.draw();
+		}
 	}
 
 	/* GETTER AND SETTER */
 
-	public resetFighters() {
+	public resetField() {
 		this._fighters["troop"] = [];
 		this._fighters["enemy"] = [];
+		this.projectiles = [];
 	}
 
 	public addFighters(fighters: Fighter[], side: SideType): void {
 		for (const fighter of fighters) {
 			this._fighters[side].push(fighter);
 		}
+	}
+
+	public addProjectile(projectile: Projectile) {
+		this.projectiles.push(projectile);
+	}
+
+	public removeProjectile(projectile: Projectile) {
+		this.projectiles = this.projectiles.filter( bullet => bullet != projectile );
 	}
 
 	get fighters(): Fighter[] {
@@ -130,8 +150,8 @@ class FightManager extends Manager {
 	}
 
 	private adjustCollision(first: Fighter, second: Fighter): void {
-		const colX = (first.radius +  second.radius) / 2 - Math.abs(first.x - second.x);
-		const colY = (first.radius +  second.radius) / 2 - Math.abs(first.y - second.y);
+		const colX = (first.hRadius +  second.hRadius) / 2 - Math.abs(first.x - second.x);
+		const colY = (first.vRadius +  second.vRadius) / 2 - Math.abs(first.y - second.y);
 
 		if (colX > 20 && colY > 20) { // allow some overlap
 			if (colX >= colY) {
@@ -154,20 +174,21 @@ class FightManager extends Manager {
 		for (const fighter of this.fighters) {
 			const x = fighter.x;
 			const y = fighter.y;
-			const r = fighter.radius;
+			const hr = fighter.hRadius;
+			const vr = fighter.vRadius;
 
-			if (x - r < 0) {
-				fighter.x = r;
+			if (x - hr < 0) {
+				fighter.x = hr;
 			}
-			else if (x + r > width) {
-				fighter.x = width - r;
+			else if (x + hr > width) {
+				fighter.x = width - hr;
 			}
 			
-			if (y - r < 0) {
-				fighter.y = r;
+			if (y - vr < 0) {
+				fighter.y = vr;
 			}
-			else if (y + r > height) {
-				fighter.y = height - r;
+			else if (y + vr > height) {
+				fighter.y = height - vr;
 			}
 		}
 	}

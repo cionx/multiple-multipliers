@@ -2,7 +2,7 @@ export { StatManager, StatSaveFormat };
 
 
 import { Stat } from "./stat.js";
-import { Fighter, SideType, sideTypesArray, FighterType, isFighterType } from "./fighter.js";
+import { Fighter, SideType, sideTypesArray, FighterType, isFighterType, fighterTypesArray } from "./fighter.js";
 import { levelManager } from "./game_manager.js";
 
 
@@ -72,6 +72,31 @@ class StatManager {
 	
 	initialize(): void {
 		for (const side of sideTypesArray) {
+			
+			for (const fighterType of fighterTypesArray) {
+				const template = <HTMLTemplateElement|null> document.getElementById("type-container-template");
+				if (template == null) {
+					throw new Error("Can’t find the template for type update boxes in the HTML document.");
+				}
+				const instance = <DocumentFragment> template.content.cloneNode(true);
+
+				instance
+				.querySelector(".type-container")
+				?.classList
+				.add(side, fighterType);
+
+				const nameDisplay = <HTMLSpanElement|null> instance.querySelector(".type-container-name");
+				if (nameDisplay == null) {
+					throw new Error("Can’t find the name field for type update boxes it the template.");
+				}
+				nameDisplay.innerHTML = fighterType;
+				if (side == "troop") {
+					document.querySelector(".left .multiplier-box")?.appendChild(instance);
+				}
+				else if (side == "enemy") {
+					document.querySelector(".right .multiplier-box")?.appendChild(instance);
+				}
+			}
 
 			const statList = <StatList> new Map();
 
@@ -96,12 +121,44 @@ class StatManager {
 		for ( const stat of statArray) {
 			stat.adjustForLevel(levelManager.currentLevel);
 		}
+		this.adjustTypeBoxes();
 	}
 	
 	adjustForMaxLevel() {
 		const statArray = this.statArray("troop");
 		for ( const stat of statArray) {
 			stat.adjustForLevel(levelManager.currentMaxLevel);
+		}
+		this.adjustTypeBoxes();
+	}
+
+	adjustTypeBoxes() {
+		for (const side of sideTypesArray) {
+			for (const fighterType of fighterTypesArray) {
+
+				const typeContainer =
+					<HTMLElement|null>
+					document.querySelector(`.type-container.${side}.${fighterType}`);
+				if (typeContainer == null) {
+					throw new Error(`Can’t find type container for ${side}, ${fighterType}.`);
+				}
+
+				const propertyEnum = this.statLists.get(side)?.get(fighterType)
+				if (propertyEnum == undefined) {
+					throw new Error(`Can’t get the properties for ${side}, ${fighterType}.`)
+				}
+				const visible =
+					Object.values(
+						propertyEnum
+					)
+					.map(stat =>
+						stat.unlocked && stat.max > 0
+					)
+					.reduce( (bool1, bool2) => 
+						bool1 || bool2
+					);
+				typeContainer.style.display = (visible ? "" : "none");
+			}
 		}
 	}
 

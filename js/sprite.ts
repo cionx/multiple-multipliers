@@ -16,10 +16,19 @@ abstract class Sprite {
 	}
 
 	drawSquare(coord: Coordinate, size: number, color: string): void {
-		drawingArea.drawSquareFromCenter(coord, size, "black");
-		const smallerSize = Math.max(0, Math.min(0.9 * size, size-10));
-		drawingArea.drawSquareFromCenter(coord, smallerSize, color);
+		this.drawRectangle(coord, size, size, color);
 	}
-
-	abstract draw(coord: Coordinate, size: number, color: string): void; 
+	
+	drawRectangle(coord: Coordinate, width: number, height: number, color: string): void {
+		drawingArea.drawRectangleFromCenter(coord, width, height, "black");
+		const smallerWidth = Math.max(0, Math.min(0.9 * width, width - 10));
+		const smallerHeight = Math.max(0, Math.min(0.9 * height, height - 10));
+		drawingArea.drawRectangleFromCenter(coord, smallerWidth, smallerHeight, color);
+	}
+	
+	drawTriangle(coord: Coordinate, size: number, color: string): void {
+		drawingArea.drawTriangleFromCenter(coord, size, "black");
+		const smallerSize = Math.max(0, Math.min(0.8 * size, size-20));
+		drawingArea.drawTriangleFromCenter(coord, smallerSize, color);
+	}
 }

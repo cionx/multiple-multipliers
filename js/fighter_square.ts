@@ -6,40 +6,64 @@ import { Fighter, SideType } from "./fighter.js";
 import { Sprite } from "./sprite.js"
 
 
+const SIZETOHEALTH = 6;
+
 const BASESIZE = 10;
-const BASEHEALTH = 6 * BASESIZE;
+const BASEHEALTH = SIZETOHEALTH * BASESIZE;
 const BASESPEED = 2;
 const BASEDAMAGE = 5;
 const BASERANGE = 45;
 const BASEDELAY = 250;
 
 
-const propertyTypeArray = <[string, number][]> [
+
+const propertyArray = <[string, number][]> [
 	["Number", 1],
 	["Size", 20]
 ];
 
 
 class Square extends Fighter {
+
+	size: number;
 	
 	static initialize(): void {
-		Fighter.fighterProperties.set("Square", propertyTypeArray);
+		Fighter.fighterProperties.set("Square", propertyArray);
 		Fighter.fighterConstructors.set("Square", ( (coord: Coordinate, side: SideType) => new Square(coord, side) ) );
 	}
 
 	constructor(coord: Coordinate, side: SideType) {
 		const sprite = new SquareSprite();
-		super(coord, sprite, BASESIZE, BASEHEALTH, BASESPEED, BASEDAMAGE, BASERANGE, BASEDELAY, side);
+		super(coord, sprite, BASESIZE, BASESIZE, BASEHEALTH, BASESPEED, BASEDAMAGE, BASERANGE, BASEDELAY, side);
+		this.size = BASESIZE;
+	}
+
+	multiplyProperty(property: string, factor: number) {
+		switch(property) {
+			case "Size":
+				this.size *= factor;
+				break;
+			default:
+				throw new Error(`Can’t find property ${property} of class Square.`)
+		}
 	}
 	
 	canReachTarget(): boolean  {
-		const dx = Math.abs(this.coord.x - this.target.coord.x) -  (this.radius + this.target.radius) / 2;
-		const dy = Math.abs(this.coord.y - this.target.coord.y) -  (this.radius + this.target.radius) / 2;
+		const dx = Math.abs(this.coord.x - this.target.coord.x) -  (this.hRadius + this.target.hRadius) / 2;
+		const dy = Math.abs(this.coord.y - this.target.coord.y) -  (this.vRadius + this.target.vRadius) / 2;
 		return (dx < 0.1 * this.radius && dy < 0.1 * this.radius);
 	}
-		
+	
+	get width(): number {
+		return this.radius;
+	}
+
+	get height(): number {
+		return this.radius;
+	}
+
 	get health(): number {
-		return 6 * this.size;
+		return SIZETOHEALTH * this.size;
 	}
 	
 	get damage(): number {
@@ -55,41 +79,32 @@ class Square extends Fighter {
 		}
 	}
 	
-	get range() {
+	get range(): number {
 		return 1.1 * this.radius;
 	}
 
-	get radius() {
+	get radius(): number {
 		return BASESIZE * Math.sqrt(this.size/2);
+	}
+	
+	get hRadius(): number {
+		return this.radius;
+	}
+	
+	get vRadius(): number {
+		return this.radius;
 	}
 
 	set health(value: number) {
-		this.size = Math.max(0, value) / 6;
-	}
-		
-	multiplyProperty(property: string, factor: number) {
-		switch(property) {
-			case "Size":
-				this.size *= factor;
-				break;
-			default:
-				throw new Error(`Can’t find property ${property} of class Square.`)
-		}
+		this.size = Math.max(0, value) / SIZETOHEALTH;
 	}
 
-	draw(): void {
-		this.sprite.draw(this.coord, this.radius, Fighter.color[this.side]);
-	}
 }
 
 
 class SquareSprite extends Sprite {
 	constructor() {
 		super(4);
-	}
-
-	draw(coord: Coordinate, size: number, color: string) {
-		this.drawSquare(coord, size, color);
 	}
 }
 

@@ -23,7 +23,7 @@ class FighterInitializer extends Manager {
 	}
 
 	start() {
-		fightManager.resetFighters();
+		fightManager.resetField();
 		gameManager.update = this.update.bind(this);
 	}
 

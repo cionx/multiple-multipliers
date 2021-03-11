@@ -110,7 +110,7 @@ class Update {
 	}
 
 	refreshVisibility() {
-		this.displayBox.style.display = (this.stat.unlocked ? "" : "none")
+		this.displayBox.style.visibility = (this.stat.unlocked ? "" : "hidden");
 	}
 	
 	disablePlus(): void {
