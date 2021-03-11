@@ -4,7 +4,7 @@ export { Timer };
 import { fightManager, gameManager } from "./game_manager.js";
 
 
-const RUNTIME = 12000; // 2 minutes
+const RUNTIME = 120000; // 2 minutes
 
 
 class Timer {
