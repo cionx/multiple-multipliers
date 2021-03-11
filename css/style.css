@@ -205,7 +205,7 @@ button:disabled{
 	justify-items: center;
 	align-items: center;
 	row-gap: 0.8vw;
-	column-gap: 0vw;
+	column-gap: 0.5vw;
 }
 
 .update-name {

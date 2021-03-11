@@ -19,13 +19,15 @@ const BASEDELAY = 250;
 
 const propertyArray = <[string, number][]> [
 	["Number", 1],
-	["Size", 20]
+	["Size", 20],
+	["Vampirism", 75],
 ];
 
 
 class Square extends Fighter {
 
 	size: number;
+	vampirism: number;
 	
 	static initialize(): void {
 		Fighter.fighterProperties.set("Square", propertyArray);
@@ -38,11 +40,13 @@ class Square extends Fighter {
 		this.size = BASESIZE;
 	}
 
-	multiplyProperty(property: string, factor: number) {
+	multiplyProperty(property: string, value: number) {
 		switch(property) {
 			case "Size":
-				this.size *= factor;
+				this.size *= value;
 				break;
+			case "Vampirism":
+				this.vampirism += 1 - (0.99)**value;
 			default:
 				throw new Error(`Can’t find property ${property} of class Square.`)
 		}
@@ -64,6 +68,14 @@ class Square extends Fighter {
 
 	get health(): number {
 		return SIZETOHEALTH * this.size;
+	}
+
+	protected hit() {
+		const health = this.target.health;
+		const actualDamage = Math.max(0, health - this.damage);
+
+		this.target.health -= this.damage;
+		this.health += this.vampirism * actualDamage;
 	}
 	
 	get damage(): number {
