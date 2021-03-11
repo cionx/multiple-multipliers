@@ -4,7 +4,7 @@ export { Update };
 import { updateManager, pointManager } from "./game_manager.js";
 
 import { Stat } from "./stat.js";
-import { MAXFACES } from "./dice.js";
+// import { MAXFACES } from "./dice.js";
 
 
 class Update {
@@ -103,7 +103,7 @@ class Update {
 		this.minPlusButton.disabled = (this.stat.min + 1 > this.stat.max);
 		this.maxMinusButton.disabled = (this.stat.min + 1 > this.stat.max);
 		this.minMinusButton.disabled = (this.stat.min <= 0);
-		this.maxPlusButton.disabled = (this.stat.max >= MAXFACES);
+		// this.maxPlusButton.disabled = (this.stat.max >= MAXFACES);
 		// the operater ||= doesn’t compile on GitLab CI
 		this.minPlusButton.disabled = this.minPlusButton.disabled || (pointManager.points <= 0);
 		this.maxPlusButton.disabled = this.maxPlusButton.disabled || (pointManager.points <= 0);
