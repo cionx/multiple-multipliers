@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "Patrick Hand";
-	src: url("../fonts/PatrickHand-Regular.ttf");
+	src: url("../fonts/VarelaRound-Regular.ttf");
 }
 
 * {
@@ -50,7 +50,7 @@
 }
 
 .rollback-button:hover::before {
-	margin-left: -7vw;
+	margin-left: -8vw;
 	transition: 0.2s ease;
 }
 
@@ -137,7 +137,7 @@ button:disabled{
 
 .side-title {
 	text-align: center;
-	font-size: 250%;
+	font-size: 200%;
 	-webkit-text-stroke: 0.13vw black;
 }
 
@@ -201,7 +201,8 @@ button:disabled{
 	grid-template-columns: repeat(5, 1fr);
 	justify-items: center;
 	align-items: center;
-	gap: 5px;
+	row-gap: 0.8vw;
+	column-gap: 0vw;
 }
 
 .update-name {
@@ -237,7 +238,7 @@ button:disabled{
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	gap: 1vw;
+	gap: 0.5vw;
 }
 
 #autostart-checkbox {
@@ -260,7 +261,7 @@ button:disabled{
 
 .rollback-button {
 	height: 3vw;
-	width: 10vw;
+	width: 12vw;
 }
 
 
@@ -307,6 +308,10 @@ button:disabled{
 	grid-column: 1 / span 3;
 }
 
+.type-container-name {
+	text-decoration: underline 0.1vw;
+}
+
 
 
 /* MODIFIER BOXES */
@@ -338,12 +343,13 @@ button:disabled{
 .dice {
 	width: 2vw;
 	height: 2vw;
-	font-size: 1vw;
+	font-size: 70%;
 }
 
 .smalldice {
 	width: 2vw;
 	height: 2vw;
+	font-size: 70%;
 }
 
 .dice, .smalldice {
