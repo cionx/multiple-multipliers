@@ -138,7 +138,7 @@ button:disabled{
 .side-title {
 	text-align: center;
 	font-size: 200%;
-	-webkit-text-stroke: 0.13vw black;
+	-webkit-text-stroke: 0.1vw black;
 }
 
 .left .side-title {
