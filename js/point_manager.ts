@@ -1,7 +1,10 @@
-export { PointManager };
+export { PointManager, PointSaveFormat };
 
 
 import { statManager, updateManager } from "./game_manager.js";
+
+
+type PointSaveFormat = number;
 
 
 class PointManager {
@@ -28,6 +31,14 @@ class PointManager {
 			stat.min = 1;
 			stat.max = 1;
 		}
+	}
+
+	getSave(): PointSaveFormat {
+		return this.points;
+	}
+
+	loadSave(save: PointSaveFormat) {
+		this.points = save;
 	}
 	
 	get points() {

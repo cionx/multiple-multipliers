@@ -22,7 +22,7 @@ import { StatManager, StatSaveFormat } from "./stat_manager.js";
 import { DiceManager } from "./dice_manager.js";
 import { UpdateManager } from "./update_manager.js";
 import { LevelManager, LevelSaveFormat } from "./level_manager.js";
-import { PointManager } from "./point_manager.js";
+import { PointManager, PointSaveFormat } from "./point_manager.js";
 import { DrawingArea } from "./drawing_area.js";
 import { FighterInitializer } from "./fighter_initializer.js";
 import { EnemyStatManager } from "./enemy_stat_manager.js";
@@ -49,7 +49,8 @@ const timer = new Timer();
 
 type SaveFormat = {
 	"levelManager": LevelSaveFormat,
-	"statManager": StatSaveFormat
+	"statManager": StatSaveFormat,
+	"pointManager": PointSaveFormat
 }
 
 
@@ -85,7 +86,8 @@ class GameManager extends Manager {
 	getSave(): SaveFormat {
 		const save = {
 			"levelManager": levelManager.getSave(),
-			"statManager": statManager.getSave()
+			"statManager": statManager.getSave(),
+			"pointManager": pointManager.getSave()
 		};
 		return save;
 	}
@@ -93,6 +95,7 @@ class GameManager extends Manager {
 	loadSave(save: SaveFormat) {
 		levelManager.loadSave( save["levelManager"] );
 		statManager.loadSave( save["statManager"] );
+		pointManager.loadSave( save["pointManager"] );
 	}
 
 	deleteSave() {
