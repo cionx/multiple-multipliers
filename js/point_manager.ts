@@ -39,7 +39,7 @@ class PointManager {
 	}
 
 	loadSave(save: PointSaveFormat) {
-		this.points = save;
+		this.points = (save == undefined ? 0 : save);
 	}
 	
 	get points() {
