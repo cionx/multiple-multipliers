@@ -23,6 +23,7 @@ class RollbackManager {
 	}
 
 	rollback(): void {
+		console.log(`Rollback at level ${levelManager.currentLevel}.`)
 		pointManager.rollback();
 		levelManager.rollback();
 		gameManager.update = updateManager.start.bind(updateManager);

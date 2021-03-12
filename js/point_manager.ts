@@ -31,6 +31,7 @@ class PointManager {
 			stat.min = 1;
 			stat.max = 1;
 		}
+		console.log(`Rollback: Reset to ${this.points} points.`)
 	}
 
 	getSave(): PointSaveFormat {

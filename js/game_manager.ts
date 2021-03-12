@@ -89,16 +89,19 @@ class GameManager extends Manager {
 			"statManager": statManager.getSave(),
 			"pointManager": pointManager.getSave()
 		};
+		console.log(`Saving the game status: ${save}.`)
 		return save;
 	}
 
 	loadSave(save: SaveFormat) {
+		console.log(`Loading the following save: ${save}.`)
 		levelManager.loadSave( save["levelManager"] );
 		statManager.loadSave( save["statManager"] );
 		pointManager.loadSave( save["pointManager"] );
 	}
 
 	deleteSave() {
+		console.log("Delete local storage.")
 		localStorage.removeItem("cionx_multiple-multipliers_save");
 	}
 
