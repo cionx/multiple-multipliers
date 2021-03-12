@@ -58,7 +58,7 @@ class Rectangle extends Fighter {
 				this.size *= factor;
 				break;
 			case "Splash":
-				this.splashRange += factor * 10;
+				this.splashRange += Math.sqrt(factor) * 10;
 				break;
 			default:
 				throw new Error(`Can’t find property ${property} of class Rectangle.`)
@@ -90,7 +90,7 @@ class Rectangle extends Fighter {
 	}
 
 	get attackDelay(): number {
-		return BASEDELAY + 25 * (this.size / BASESIZE);
+		return BASEDELAY + 40 * (this.size / BASESIZE);
 	}
 
 	get hRadius(): number {
