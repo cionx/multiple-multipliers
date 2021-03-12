@@ -73,8 +73,7 @@ class Square extends Fighter {
 	}
 
 	protected hit() {
-		const health = this.target.health;
-		const actualDamage = Math.max(0, health - this.damage);
+		const actualDamage = Math.max(0, Math.min(this.damage, this.target.health));
 
 		this.target.health -= this.damage;
 		this.health += this.vampirism * actualDamage;
