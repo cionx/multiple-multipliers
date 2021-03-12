@@ -17,7 +17,7 @@ class Dice {
 	private valueDisplay: HTMLSpanElement;
 
 	private currentRollDelay: number;
-	private tickDelay;
+	private tickDelay: number;
 
 	constructor (stat: Stat) {
 		this._value = 1;
