@@ -2,6 +2,7 @@ export { Timer };
 
 
 import { fightManager, gameManager } from "./game_manager.js";
+import { TICKDELAY } from "./main.js";
 
 
 const RUNTIME = 90000; // 2 minutes
@@ -10,6 +11,7 @@ const RUNTIME = 90000; // 2 minutes
 class Timer {
 	startTime: number;
 	timeDisplay: HTMLSpanElement;
+	ticksLeft: number;
 
 	constructor() {
 		this.startTime = 0;
@@ -19,26 +21,28 @@ class Timer {
 			throw new Error("Can’t find the timer display in the HTML document.")
 		}
 		this.timeDisplay = timeDisplay;
+		this.ticksLeft = 0;
 	}
 
-	start(time: number) {
+	start() {
 		this.timeDisplay.style.display = "";
-		this.startTime = time;
+		this.ticksLeft = RUNTIME / TICKDELAY;
 	}
 
-	update(time: number) {
-		if (time >= this.startTime + RUNTIME) {
+	update() {
+		if (this.ticksLeft <= 0) {
 			gameManager.update = fightManager.stop.bind(fightManager);
 		}
-		this.refreshDisplay(time);
+		this.ticksLeft--;
+		this.refreshDisplay();
 	}
 	
 	stop() {
 		this.timeDisplay.style.display = "none";
 	}
 
-	refreshDisplay(time: number) {
-		const timeLeft = Math.max(0, this.startTime + RUNTIME - time);
+	refreshDisplay() {
+		const timeLeft = Math.max(0, this.ticksLeft * TICKDELAY);
 		const secondsLeft = Math.ceil(timeLeft / 1000);
 		
 		const seconds = secondsLeft % 60;

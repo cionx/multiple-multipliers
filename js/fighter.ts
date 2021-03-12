@@ -6,6 +6,7 @@ import { fightManager } from "./game_manager.js";
 
 import { Coordinate } from "./coordinate.js"
 import { Sprite } from "./sprite.js";
+import { TICKDELAY } from "./main.js";
 
 
 const sideTypesArray = ["troop", "enemy"] as const;
@@ -47,7 +48,7 @@ abstract class Fighter {
 	_damage: number;
 	_range: number;
 	_attackDelay: number;
-	lastAttack: number;
+	tickDelay: number;
 
 	side: SideType;
 	target: Fighter;
@@ -81,7 +82,7 @@ abstract class Fighter {
 		this._damage = damage;
 		this._range = range;
 		this._attackDelay = attackDelay;
-		this.lastAttack = attackDelay;
+		this.tickDelay = 0;
 		
 		this.side = side;
 		this.target = this; // dirty hack
@@ -91,7 +92,7 @@ abstract class Fighter {
 		this.update = this.chooseTarget;
 	}
 	
-	update(time: number): void {
+	update(): void {
 		this.start(); // starts the action loop
 	}
 
@@ -130,10 +131,9 @@ abstract class Fighter {
 		this.update = this.move;
 	}
 	
-	private move(time: number) {
+	private move() {
 		if (this.canReachTarget()) {
 			this.update = this.attack;
-			this.lastAttack = time;
 		}
 		else {
 			this.coord.moveTowards(this.target.coord, this.speed);
@@ -141,15 +141,16 @@ abstract class Fighter {
 		}
 	}
 	
-	private attack(time: number): void {
+	private attack(): void {
 		if (!this.canReachTarget() || !this.target.isAlive) {
 			this.update = this.chooseTarget;
 			return;
 		}
-		if (time >= this.lastAttack + this.attackDelay) {
+		if (this.tickDelay <= 0) {
 			this.hit();
-			this.lastAttack = time;
+			this.tickDelay = this.attackDelay / TICKDELAY;
 		}
+		this.tickDelay--;
 	}
 	
 	protected hit() {

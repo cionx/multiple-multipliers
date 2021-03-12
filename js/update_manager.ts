@@ -7,6 +7,7 @@ import { gameManager, statManager, messenger, enemyStatManager, drawingArea, tim
 import { FighterType } from "./fighter.js";
 import { Manager } from "./manager.js";
 import { Update } from "./update.js";
+import { TICKDELAY } from "./main.js";
 
 
 type UpdateList = Map<FighterType, {[property: string]: Update}>;
@@ -52,22 +53,22 @@ class UpdateManager extends Manager {
 		this.updateList = new Map();
 	}
 
-	start(time: number): void {
+	start(): void {
 		timer.stop();
 		optionManager.start();
 		this.refreshDisplay();
 		this.window.style.display = "";
 		this.playButton.disabled = false;
-		this.autostartTimer = time;
+		this.autostartTimer = AUTOSTARTDELAY / TICKDELAY;
 		gameManager.update = this.update.bind(this);
 	}
 
-	update(time: number): void {
-		if (
-			this.autostartCheckbox.checked
-			&& time > this.autostartTimer + AUTOSTARTDELAY
-		) {
+	update(): void {
+		if (this.autostartCheckbox.checked && this.autostartTimer <= 0) {
 			this.stop();
+		}
+		else {
+			this.autostartTimer--;
 		}
 	}
 

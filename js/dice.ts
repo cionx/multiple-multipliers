@@ -3,6 +3,7 @@ export { Dice };
 
 import { Stat } from "./stat.js";
 import { randomInt } from "./random.js";
+import { TICKDELAY } from "./main.js";
 
 
 // const MAXFACES = 50;
@@ -16,14 +17,14 @@ class Dice {
 	private valueDisplay: HTMLSpanElement;
 
 	private currentRollDelay: number;
-	private lastRoll: number;
+	private tickDelay;
 
 	constructor (stat: Stat) {
 		this._value = 1;
 		this.stat = stat;
 		
 		this.currentRollDelay = 0;
-		this.lastRoll = 0;
+		this.tickDelay = 0;
 			
 		const template = <HTMLTemplateElement|null> document.querySelector(".multiplier-template");
 		if (template == null) {
@@ -55,26 +56,24 @@ class Dice {
 			<HTMLDivElement|null>
 			document.querySelector(`.${sideString} .type-container.${stat.fighterType}`);
 		typeContainer?.appendChild(instance);
-		
-		// if (this.stat.side == "troop") {
-		// 	document.querySelector(".left .multiplier-box")?.appendChild(instance);
-		// } else {
-		// 	document.querySelector(".right .multiplier-box")?.appendChild(instance)
-		// }
 	
 		this.refreshDisplay();
 	}
 
-	start(time: number): void {
-		this.currentRollDelay = 100;
-		this.lastRoll = time + randomInt(0, 1000);
+	start(): void {
+		this.currentRollDelay = 200/TICKDELAY;
+		this.tickDelay = this.currentRollDelay;
 	}
 	
-	update(time: number) {
-		if (time > this.lastRoll + this.currentRollDelay) {
+	
+	update() {
+		if (this.tickDelay <= 0) {
 			this.roll();
-			this.lastRoll = time;
 			this.currentRollDelay *= 1.2;
+			this.tickDelay = this.currentRollDelay;
+		}
+		else {
+			this.tickDelay--;
 		}
 	}
 
@@ -96,7 +95,7 @@ class Dice {
 	}
 	
 	get isRolling(): boolean {
-		return this.currentRollDelay < 1000;
+		return this.currentRollDelay < 1000 / TICKDELAY;
 	}
 
 	set visible(visibility: boolean) {

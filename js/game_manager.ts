@@ -103,7 +103,7 @@ class GameManager extends Manager {
 		this.update = updateManager.start.bind(updateManager);
 	}
 
-	update(time: number): void {
+	update(): void {
 		// overwritten during the game
 	}
 	

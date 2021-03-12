@@ -27,13 +27,7 @@ class MovingObject {
 		this.lastMove = time;
 	}
 
-	update(time: number) {
-		const dt = time - this.lastMove;
-
-		this.velocity.x += this.force.x / this.mass * dt;
-		this.velocity.y += this.force.y / this.mass * dt;
-		this.position.x += this.velocity.x * dt;
-		this.position.y += this.velocity.y * dt;
+	update() {
 	}
 
 	public addForce(direction: Coordinate, strength: number  ) {

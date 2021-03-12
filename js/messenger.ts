@@ -2,6 +2,7 @@ export { Messenger };
 
 
 import { gameManager, fightManager, levelManager } from "./game_manager.js";
+import { TICKDELAY } from "./main.js";
 
 
 import { Manager } from "./manager.js";
@@ -11,13 +12,13 @@ class Messenger extends Manager {
 	
 	static readonly SCREENTIME = 3000;
 
-	private startTime: number;
+	private ticksLeft: number;
 	private window: HTMLDivElement;
 
 	constructor() {
 		super();
 
-		this.startTime = 0;
+		this.ticksLeft = 0;
 		
 		const window = <HTMLDivElement|null> document.querySelector(".messenger-window");
 		if (window == null) {
@@ -26,17 +27,18 @@ class Messenger extends Manager {
 		this.window = window;
 	}
 	
-	start(time: number) {
-		this.startTime = time;
+	start() {
+		this.ticksLeft = Messenger.SCREENTIME / TICKDELAY;
 		this.window.innerHTML = fightManager.resultString;
 		gameManager.update = this.update.bind(this);
 		this.window.style.display = "flex";
 	}
 
-	update(time: number) {
-		if (time > this.startTime + Messenger.SCREENTIME) {
+	update() {
+		if (this.ticksLeft <= 0) {
 			this.stop();
 		}
+		this.ticksLeft--;
 	}
 
 	stop() {

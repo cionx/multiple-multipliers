@@ -32,8 +32,8 @@ class FightManager extends Manager {
 		fighterInitializer.start();
 	}
 
-	update(time: number): void {
-		this.removeDead(time);
+	update(): void {
+		this.removeDead();
 		this.checkCollision();
 		this.checkBorder();
 		for (const list of Object.values(this._fighters)) {
@@ -44,20 +44,20 @@ class FightManager extends Manager {
 		}
 		drawingArea.clear();
 		for (const projectile of this.projectiles) {
-			projectile.update(time);
+			projectile.update();
 		}
 		for (const fighter of this.fighters) {
-			fighter.update(time);
+			fighter.update();
 		}
 		this.draw();
-		timer.update(time);
+		timer.update();
 	}
 	
 	stop(): void {
 		gameManager.update = messenger.start.bind(messenger);
 	}
 
-	removeDead(time: number): void {
+	removeDead(): void {
 		for (const [side, list] of Object.entries(this._fighters)) {
 			
 			const before = list.length;
@@ -66,7 +66,7 @@ class FightManager extends Manager {
 
 			const after = this._fighters[side as SideType].length;
 			if (after < before) {
-				timer.start(time);
+				timer.start();
 			}
 		}
 	}

@@ -6,9 +6,9 @@ abstract class Manager {
 		// nothing to do here
 	}
 
-	abstract start(time: number): void;
+	abstract start(): void;
 
-	abstract update(time: number): void;
+	abstract update(): void;
 
-	abstract stop(time: number): void;
+	abstract stop(): void;
 }

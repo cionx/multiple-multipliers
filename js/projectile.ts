@@ -18,8 +18,6 @@ class Projectile {
 	coord: Coordinate;
 	target: Coordinate;
 
-	lastMove: number;
-
 	damage: number;
 	splashRange: number;
 	
@@ -38,7 +36,6 @@ class Projectile {
 	) {
 		this.coord = new Coordinate(coord.x, coord.y);
 		this.target = target;
-		this.lastMove = 0;
 		this.damage = damage;
 		this.splashRange = splashRange;
 		
@@ -48,12 +45,11 @@ class Projectile {
 		this.sprite = new ProjectileSprite();
 	}
 
-	update(time: number): void {
-		this.start(time);
+	update(): void {
+		this.start();
 	}
 
-	start(time: number): void {
-		this.lastMove = time;
+	start(): void {
 		this.update = this.move;
 	}
 
@@ -61,14 +57,12 @@ class Projectile {
 		fightManager.removeProjectile(this);
 	}
 
-	move(time: number): void {
+	move(): void {
 		if (this.canReachTarget()) {
 			this.update = this.explode;
 		}
 		else {
-			const dt = time - this.lastMove;
 			this.coord.moveTowards(this.target, this.speed);
-			this.lastMove = time;
 		}
 	}
 	

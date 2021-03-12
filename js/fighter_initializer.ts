@@ -28,9 +28,9 @@ class FighterInitializer extends Manager {
 		gameManager.update = this.update.bind(this);
 	}
 
-	update(time: number) {
+	update() {
 		this.generateFighters();
-		this.stop(time);
+		this.stop();
 	}
 
 	generateFighters() {
@@ -74,8 +74,8 @@ class FighterInitializer extends Manager {
 		}
 	}
 
-	stop(time: number) {
-		timer.start(time);
+	stop() {
+		timer.start();
 		gameManager.update = fightManager.update.bind(fightManager);
 	}
 

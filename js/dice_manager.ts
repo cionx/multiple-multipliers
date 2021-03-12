@@ -13,14 +13,14 @@ class DiceManager extends Manager {
 		super();
 	}
 
-	start(time: number) {
+	start() {
 		for (const dice of this.diceArray) {
-			dice.start(time);
+			dice.start();
 		}
 		gameManager.update = this.update.bind(this);
 	}
 
-	update(time: number) {
+	update() {
 		const rollingDice =
 			this
 			.diceArray
@@ -32,7 +32,7 @@ class DiceManager extends Manager {
 		}
 		else {
 			for (const dice of rollingDice) {
-				dice.update(time);
+				dice.update();
 			}	
 		}
 	}
