@@ -50,7 +50,7 @@ class OptionsManager {
 	}
 
 
-	initialization() {
+	initialize() {
 		const resetButton = <HTMLButtonElement|null> document.querySelector(".reset-button");
 		if (resetButton == null) {
 			throw new Error("Can’t find the reset button in the HTML document.")

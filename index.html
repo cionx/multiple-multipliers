@@ -13,6 +13,8 @@
 
 	<div class="container">
 
+
+
 		<div class="left">
 
 			<div class="multiplier-box">
@@ -34,15 +36,49 @@
 					</template>
 
 			</div>
-			<span class="side-title">
-				You
-			</span>
 		</div>
 
-		<div class="top"></div>
+
+
+		<div class="top">
+
+			<div class="shop-point-display">
+				<span>
+					Update Points:
+				</span>
+				<span id="points-left">
+					0
+				</span>
+			</div>
+			
+			<div class="level-navigation">
+					<button class="level-back-button navigation-button"> − </button>
+					<span> Level </span>
+					<span class="level-display"> 1 </span>
+					<button class="level-forward-button navigation-button"> + </button>
+			</div>
+
+			<button class="play-button">
+				Roll
+			</button>
+			
+		</div>
+
+
 
 		<div class="display">
 		
+			<div class="loading-window">
+				<div class="loading-information">
+					<div>
+						Simulating offline progress
+					</div>
+					<progress class="loading-bar">
+						0%
+					</progress>
+				</div>
+			</div>
+
 			<div class="options-window dropping-down">
 				<h1>Multiple Multipliers</h1>
 
@@ -85,27 +121,7 @@
 			</div>
 
 			<div class="shop-window dropping-down">
-				
-				<div class="shop-point-display">
-					<span>
-						Update Points:
-					</span>
-					<span id="points-left">
-						0
-					</span>
-				</div>
-				
-				<div class="level-navigation">
-						<button class="level-back-button navigation-button"> − </button>
-						<span> Level </span>
-						<span class="level-display"> 1 </span>
-						<button class="level-forward-button navigation-button"> + </button>
-				</div>
-
-				<button class="play-button">
-					Roll
-				</button>
-			
+					
 				<template class="update-window-template">
 					<div class="update-window">
 						<!-- first row -->
@@ -122,16 +138,6 @@
 						<button class="update-max-plus plus-minus"> + </button>
 					</div>
 				</template>
-				
-				<div class="autostart-window">
-					<label for="autostart-checkbox" id="autostart-label" tooltip="Automatically starts the next round after 5 seconds.">
-							Autoroll
-					</label>
-					<input type="checkbox" id="autostart-checkbox">
-				</div>
-				<button class="rollback-button" tooltip="Restart from level 1 but keep your update points.">
-					Rollback
-				</button>
 			</div>
 
 			<div class="messenger-window dropping-down"></div>
@@ -140,20 +146,43 @@
 			
 		</div>
 
-		<div class="bottom">
-			<span class="timer" tooltip="The round ends in a tie if no block is defeated for more than 90 seconds.">
-				1:30
-			</span>
-			<button class="options-button">Options</button>
-		</div>
+		
 
 		<div class="right">
 			<div class="multiplier-box">
 			</div>
-			<span class="side-title">
-				Enemy
-			</span>
 		</div>
+
+		<div class="leftinfo side-title">
+			You
+		</div>
+
+
+		<div class="bottom">
+			
+				<div class="autostart-window">
+					<label for="autostart-checkbox" id="autostart-label" tooltip="Automatically starts the next round after 5 seconds.">
+							Autoroll
+					</label>
+					<input type="checkbox" id="autostart-checkbox">
+				</div>
+
+				<span class="timer-option-container">
+					<span class="timer" tooltip="The round ends in a tie if no block is defeated for more than 90 seconds.">
+						1:30
+					</span>
+					<button class="options-button">Options</button>
+				</span>
+
+				<button class="rollback-button" tooltip="Restart from level 1 but keep your update points.">
+					Rollback
+				</button>
+		</div>
+
+		<div class="rightinfo side-title">
+			Enemy
+		</div>
+
 		
 	</div>
 </body>

@@ -1,7 +1,7 @@
 export { DiceManager };
 
 
-import { gameManager, fightManager, statManager, drawingArea } from "./game_manager.js";
+import { gameManager, fightManager, statManager } from "./game_manager.js";
 
 import { Manager } from "./manager.js";
 import { Dice } from "./dice.js";

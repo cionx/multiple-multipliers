@@ -48,28 +48,37 @@ const timer = new Timer();
 
 
 type SaveFormat = {
-	"levelManager": LevelSaveFormat,
-	"statManager": StatSaveFormat,
-	"pointManager": PointSaveFormat
+	"saveTime"      : number,
+	"levelManager"  : LevelSaveFormat,
+	"statManager"   : StatSaveFormat,
+	"pointManager"  : PointSaveFormat,
 }
 
 
 class GameManager extends Manager {
 
+	downTime: number;
+
 	constructor() {
 		super();
+		this.downTime = 0;
 	}
 	
 	initialize() {
-		fightManager.initialize();
-		statManager.initialize();
-		updateManager.initializeUpdates();
-		levelManager.initialize();
-		optionManager.initialization();
+		for (const manager of [
+			fightManager,
+			statManager,
+			updateManager,
+			levelManager,
+			optionManager]
+		) {
+			manager.initialize();
+		}
 	}
 
 	save(): void {
 		let saveJSON = JSON.stringify(this.getSave());
+		console.log(`Saving the game status: ${saveJSON}.`)
 		localStorage.setItem("cionx_multiple-multipliers_save", saveJSON);
 	}
 	
@@ -85,19 +94,32 @@ class GameManager extends Manager {
 
 	getSave(): SaveFormat {
 		const save = {
+			"saveTime"    : Date.now(),
 			"levelManager": levelManager.getSave(),
-			"statManager": statManager.getSave(),
+			"statManager" : statManager .getSave(),
 			"pointManager": pointManager.getSave()
 		};
-		console.log(`Saving the game status: ${save}.`)
 		return save;
 	}
 
 	loadSave(save: SaveFormat) {
-		console.log(`Loading the following save: ${save}.`)
+		console.log(`Loading the following save: ${JSON.stringify(save)}.`)
+		
 		levelManager.loadSave( save["levelManager"] );
-		statManager.loadSave( save["statManager"] );
+		statManager .loadSave( save["statManager" ] );
 		pointManager.loadSave( save["pointManager"] );
+
+		const saveTime = save["saveTime"];
+		if (saveTime == undefined) {
+			this.downTime = 0;
+			console.log("The save file does not contain a time stamp.");
+		}
+		else {
+			const loadTime = Date.now();
+			console.log(`Time stamp of last save: ${saveTime}`);
+			console.log(`Current time stamp: ${loadTime}`);
+			this.downTime = loadTime - saveTime;
+		}
 	}
 
 	deleteSave() {
@@ -114,6 +136,10 @@ class GameManager extends Manager {
 	}
 	
 	stop(): void {
+	}
+
+	set autoRoll(value: boolean) {
+		updateManager.autoRoll = value;
 	}
 
 }

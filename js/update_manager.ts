@@ -64,7 +64,7 @@ class UpdateManager extends Manager {
 	}
 
 	update(): void {
-		if (this.autostartCheckbox.checked && this.autostartTimer <= 0) {
+		if (this.autoRoll && this.autostartTimer <= 0) {
 			this.stop();
 		}
 		else {
@@ -81,7 +81,7 @@ class UpdateManager extends Manager {
 		this.playButton.disabled = true;
 	}
 
-	initializeUpdates(): void {
+	initialize(): void {
 		const statList = statManager.statLists.get("troop");
 		if (statList == null) {
 			throw Error("Can’t load the stats for troops.")
@@ -121,6 +121,14 @@ class UpdateManager extends Manager {
 		for (const update of this.updateArray) {
 			update.enablePlus();
 		}
+	}
+	
+	get autoRoll(): boolean {
+		return this.autostartCheckbox.checked;
+	}
+	
+	set autoRoll(value: boolean) {
+		this.autostartCheckbox.checked = value;
 	}
 	
 	refreshDisplay() {
