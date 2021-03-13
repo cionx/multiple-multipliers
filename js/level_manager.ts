@@ -100,7 +100,7 @@ class LevelManager extends Manager {
 	}
 
 	rollback() {
-		this.previousMaxLevel = this.currentMaxLevel;
+		this.previousMaxLevel = Math.max(this.previousMaxLevel, this.currentMaxLevel);
 		this.currentLevel = 1;
 		this.currentMaxLevel = 1;
 		this.refreshDisplay();

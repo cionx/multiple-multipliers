@@ -1,5 +1,13 @@
-pages:
-  image: zachdeibert/typescript
+image: zachdeibert/typescript
+
+
+stages:
+  - build
+  - deploy
+
+
+build:
+  stage: build
   script:
     ## Compile all TypeScript files do JavaScript
     ## using the rules from tsconfig.json
@@ -14,6 +22,15 @@ pages:
     - mv index.html public
   artifacts:
     paths:
-    - public
+      - public
+
+
+pages:
+  stage: deploy
+  script:
+    - echo "Nothing to do"
+  artifacts:
+    paths:
+      - public
   only:
-   - development
+    - development
