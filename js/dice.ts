@@ -55,7 +55,10 @@ class Dice {
 		const typeContainer =
 			<HTMLDivElement|null>
 			document.querySelector(`.${sideString} .type-container.${stat.fighterType}`);
-		typeContainer?.appendChild(instance);
+		if (typeContainer == null) {
+			throw new Error(`Can’t find the type container for ${stat.side}, ${stat.fighterType} in the HTML document.`)
+		}
+		typeContainer.appendChild(instance);
 	
 		this.refreshDisplay();
 	}

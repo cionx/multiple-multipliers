@@ -80,22 +80,24 @@ class StatManager {
 				}
 				const instance = <DocumentFragment> template.content.cloneNode(true);
 
-				instance
-				.querySelector(".type-container")
-				?.classList
-				.add(side, fighterType);
+				const typeContainer = <HTMLDivElement|null> instance.querySelector(".type-container");
+				if (typeContainer == null) {
+					throw new Error("Can’t find the type container in the respective template.");
+				}
+				typeContainer.classList.add(side, fighterType);
 
 				const nameDisplay = <HTMLSpanElement|null> instance.querySelector(".type-container-name");
 				if (nameDisplay == null) {
-					throw new Error("Can’t find the name field for type update boxes it the template.");
+					throw new Error("Can’t find the name field for type update boxes in the respective template.");
 				}
 				nameDisplay.innerHTML = fighterType;
-				if (side == "troop") {
-					document.querySelector(".left .multiplier-box")?.appendChild(instance);
+				const sideString = (side == "troop" ? "left" : "right");
+				const multiplierBox = document.querySelector(`.${sideString} .multiplier-box`);
+				if (multiplierBox == null) {
+					throw Error(`Can’t find the multiplier box for ${side} in the HTML document.`)
 				}
-				else if (side == "enemy") {
-					document.querySelector(".right .multiplier-box")?.appendChild(instance);
-				}
+				multiplierBox.appendChild(instance);
+				
 			}
 
 			const statList = <StatList> new Map();
@@ -143,7 +145,11 @@ class StatManager {
 					throw new Error(`Can’t find type container for ${side}, ${fighterType}.`);
 				}
 
-				const propertyEnum = this.statLists.get(side)?.get(fighterType)
+				const statList = this.statLists.get(side);
+				if (statList == null) {
+					throw new Error(`Can’t get the statList for ${side}.`);
+				}
+				const propertyEnum = statList.get(fighterType);
 				if (propertyEnum == undefined) {
 					throw new Error(`Can’t get the properties for ${side}, ${fighterType}.`)
 				}
