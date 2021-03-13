@@ -26,8 +26,8 @@ class PointManager {
 
 	rollback() {
 		for (const stat of statManager.statArray("troop")) {
-			this.points += (stat.min - 1);
 			this.points += (stat.max - 1);
+			this.points += (stat.min - 1);
 			stat.min = 1;
 			stat.max = 1;
 		}

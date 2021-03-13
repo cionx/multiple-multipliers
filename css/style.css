@@ -145,20 +145,28 @@ button:disabled{
 /* } */
 
 .left, .right {
-	width: 250px;
+	width: 220px;
 }
 
 
 
 /* BORDERS */
 
-/* .left {
-	border-right: 3px solid black;
+.top {
+	border-bottom: 3px solid black;
+}
+
+.bottom {
+	border-top: 3px solid black;
+}
+
+.left {
+	margin-right: 1vw;
 }
 
 .right {
-	border-left: 3px solid black;
-} */
+	margin-left: 1vw;
+}
 
 .side-title {
 	text-align: center;

@@ -5,13 +5,10 @@ import { Coordinate } from "./coordinate";
 
 
 class MovingObject {
-	private _position: Coordinate;
-	private _velocity: Coordinate;
-	private _mass: number;
-	private _force: Coordinate;
-
-	private lastMove: number;
-
+	private position: Coordinate;
+	private velocity: Coordinate;
+	private mass: number;
+	private force: Coordinate;
 
 	constructor(
 		position: Coordinate,
@@ -20,11 +17,10 @@ class MovingObject {
 		force: Coordinate,
 		time: number
 	) {
-		this._position = position;
-		this._velocity = velocity;
-		this._mass = mass;
-		this._force = force;
-		this.lastMove = time;
+		this.position = position;
+		this.velocity = velocity;
+		this.mass = mass;
+		this.force = force;
 	}
 
 	update() {
@@ -33,34 +29,6 @@ class MovingObject {
 	public addForce(direction: Coordinate, strength: number  ) {
 		this.force.x += direction.x * strength;
 		this.force.y += direction.y * strength;
-	}
-
-	private get position(): Coordinate {
-		return this._position;
-	}
-	private set position(value: Coordinate) {
-		this._position = value;
-	}
-
-	private get velocity(): Coordinate {
-		return this._velocity;
-	}
-	private set velocity(value: Coordinate) {
-		this._velocity = value;
-	}
-
-	private get mass(): number {
-		return this._mass;
-	}
-	private set mass(value: number) {
-		this._mass = value;
-	}
-
-	private get force(): Coordinate {
-		return this._force;
-	}
-	private set force(value: Coordinate) {
-		this._force = value;
 	}
 	
 }
